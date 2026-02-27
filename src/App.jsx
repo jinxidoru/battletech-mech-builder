@@ -6,6 +6,7 @@ import Version from './components/Version';
 import detailedMechsData from './data/mechs';
 import { adaptMechsForUI } from './utils/mechAdapter';
 import { getBaseMechName, migrateOwnedCounts } from './utils/mechNameUtils';
+import { calculateAdjustedBV } from './utils/bvCalculator';
 import './App.css';
 
 // Use real mech data from the mechs.js file
@@ -19,6 +20,7 @@ function App() {
     name: 'My Lance',
     mechs: []
   });
+  const [targetBV, setTargetBV] = useState(5000);
 
   // Load data from localStorage on mount
   useEffect(() => {
@@ -56,13 +58,87 @@ function App() {
     });
     setMechs(mergedMechs);
 
-    const savedLance = localStorage.getItem('battletech-lance');
-    if (savedLance) {
+    // Load current lance from new format
+    const savedCurrentLance = localStorage.getItem('battletech-current-lance');
+    if (savedCurrentLance) {
       try {
-        setLance(JSON.parse(savedLance));
+        const lanceData = JSON.parse(savedCurrentLance);
+
+        // Validate and load lance data
+        if (lanceData.version === '1.0' && lanceData.currentLance) {
+          const { targetBV: savedTargetBV, mechs: savedMechs } = lanceData.currentLance;
+
+          // Set target BV
+          if (typeof savedTargetBV === 'number' && savedTargetBV > 0) {
+            setTargetBV(savedTargetBV);
+          }
+
+          // Validate and restore mechs
+          const validMechs = (savedMechs || [])
+            .map(lanceMech => {
+              // Validate mech exists in data
+              const mech = initialMechs.find(m => m.id === lanceMech.mechId);
+              if (!mech) {
+                console.warn(`Mech ${lanceMech.mechId} no longer exists, skipping`);
+                return null;
+              }
+
+              // Validate skill values
+              const gunnery = typeof lanceMech.gunnery === 'number' &&
+                              lanceMech.gunnery >= 0 &&
+                              lanceMech.gunnery <= 8
+                              ? lanceMech.gunnery : 4;
+              const piloting = typeof lanceMech.piloting === 'number' &&
+                              lanceMech.piloting >= 0 &&
+                              lanceMech.piloting <= 8
+                              ? lanceMech.piloting : 5;
+
+              // Calculate adjusted BV based on restored skills
+              const adjustedBV = calculateAdjustedBV(mech.baseBV, gunnery, piloting);
+
+              return {
+                mechId: lanceMech.mechId,
+                gunnery,
+                piloting,
+                adjustedBV,
+                skillsLocked: lanceMech.locked === true
+              };
+            })
+            .filter(Boolean);
+
+          if (validMechs.length > 0) {
+            setLance({
+              id: 'lance-1',
+              name: 'My Lance',
+              mechs: validMechs
+            });
+          }
+        }
       } catch (e) {
-        console.error('Failed to load lance from localStorage', e);
+        console.error('Failed to load current lance from localStorage', e);
       }
+    } else {
+      // Fallback: try old format for migration
+      const savedLance = localStorage.getItem('battletech-lance');
+      if (savedLance) {
+        try {
+          const oldLance = JSON.parse(savedLance);
+          if (oldLance.mechs && oldLance.mechs.length > 0) {
+            setLance(oldLance);
+          }
+        } catch (e) {
+          console.error('Failed to load lance from old format', e);
+        }
+      }
+    }
+
+    // Initialize empty saved lances structure for future
+    const savedLances = localStorage.getItem('battletech-saved-lances');
+    if (!savedLances) {
+      localStorage.setItem('battletech-saved-lances', JSON.stringify({
+        version: '1.0',
+        lances: []
+      }));
     }
   }, []);
 
@@ -79,10 +155,22 @@ function App() {
     localStorage.setItem('battletech-owned-counts', JSON.stringify(ownedByBaseName));
   }, [mechs]);
 
-  // Save lance to localStorage when it changes
+  // Save current lance to localStorage when it changes
   useEffect(() => {
-    localStorage.setItem('battletech-lance', JSON.stringify(lance));
-  }, [lance]);
+    const lanceData = {
+      version: '1.0',
+      currentLance: {
+        targetBV,
+        mechs: lance.mechs.map(lanceMech => ({
+          mechId: lanceMech.mechId,
+          gunnery: lanceMech.gunnery,
+          piloting: lanceMech.piloting,
+          locked: lanceMech.skillsLocked === true
+        }))
+      }
+    };
+    localStorage.setItem('battletech-current-lance', JSON.stringify(lanceData));
+  }, [lance, targetBV]);
 
   const handleMechSelect = (mech) => {
     setSelectedMech(mech);
@@ -105,6 +193,27 @@ function App() {
 
   const handleLanceUpdate = (updatedLance) => {
     setLance(updatedLance);
+  };
+
+  const handleTargetBVChange = (newTargetBV) => {
+    setTargetBV(newTargetBV);
+  };
+
+  const handleClearLance = () => {
+    setLance({
+      id: 'lance-1',
+      name: 'My Lance',
+      mechs: []
+    });
+    setTargetBV(5000);
+    // Clear localStorage
+    localStorage.setItem('battletech-current-lance', JSON.stringify({
+      version: '1.0',
+      currentLance: {
+        targetBV: 5000,
+        mechs: []
+      }
+    }));
   };
 
   return (
@@ -134,6 +243,9 @@ function App() {
             mechs={mechs}
             onLanceUpdate={handleLanceUpdate}
             onMechSelect={handleMechSelect}
+            targetBV={targetBV}
+            onTargetBVChange={handleTargetBVChange}
+            onClearLance={handleClearLance}
           />
         </div>
 

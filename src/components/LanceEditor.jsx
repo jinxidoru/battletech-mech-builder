@@ -4,8 +4,7 @@ import { BASELINE_SKILLS } from '../types';
 import { abbreviateWeaponName } from '../utils/weaponFormatter';
 import './LanceEditor.css';
 
-function LanceEditor({ lance, mechs, onLanceUpdate, onMechSelect }) {
-  const [targetBV, setTargetBV] = useState('');
+function LanceEditor({ lance, mechs, onLanceUpdate, onMechSelect, targetBV, onTargetBVChange, onClearLance }) {
   const [compactView, setCompactView] = useState(false);
 
   const handleDrop = (e) => {
@@ -80,7 +79,7 @@ function LanceEditor({ lance, mechs, onLanceUpdate, onMechSelect }) {
   };
 
   const handleAutoBalance = () => {
-    const target = parseInt(targetBV);
+    const target = typeof targetBV === 'number' ? targetBV : parseInt(targetBV);
     if (isNaN(target) || target <= 0) {
       alert('Please enter a valid target BV');
       return;
@@ -128,7 +127,7 @@ function LanceEditor({ lance, mechs, onLanceUpdate, onMechSelect }) {
   }, 0);
 
   // Check for warnings
-  const targetBVNum = parseInt(targetBV);
+  const targetBVNum = typeof targetBV === 'number' ? targetBV : parseInt(targetBV);
   const showBVWarning = !isNaN(targetBVNum) && targetBVNum > 0 && totalBV > targetBVNum;
   const mechCount = lance.mechs.length;
   const showMechCountWarning = mechCount > 0 && mechCount !== 4 && mechCount !== 5;
@@ -187,7 +186,7 @@ function LanceEditor({ lance, mechs, onLanceUpdate, onMechSelect }) {
               type="number"
               placeholder="Target BV"
               value={targetBV}
-              onChange={(e) => setTargetBV(e.target.value)}
+              onChange={(e) => onTargetBVChange(parseInt(e.target.value) || 0)}
               className="target-bv-input"
             />
             <button
@@ -196,6 +195,14 @@ function LanceEditor({ lance, mechs, onLanceUpdate, onMechSelect }) {
               className="auto-balance-btn"
             >
               Auto-Balance
+            </button>
+            <button
+              onClick={onClearLance}
+              disabled={lance.mechs.length === 0}
+              className="clear-lance-btn"
+              title="Clear all mechs from lance"
+            >
+              Clear Lance
             </button>
           </div>
           <div className="compact-toggle">
