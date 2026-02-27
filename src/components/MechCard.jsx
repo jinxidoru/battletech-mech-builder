@@ -92,22 +92,15 @@ function MechCard({ mech, onSelect, isSelected, onOwnedCountChange, compactView 
             {mech.tonnage}t
           </span>
           <span className="bv-badge">{mech.baseBV} BV</span>
+          <span className="role-badge">{mech.role}</span>
         </div>
       </div>
 
       <div className="mech-card-body">
-        <div className="mech-role">
-          <span className="role-badge">{mech.role}</span>
-        </div>
-
         <div className="mech-stats-compact">
           <div className="stat">
             <span className="stat-label">Speed:</span>
-            <span className="stat-value">{mech.speed}/{mech.speed * 1.5}</span>
-          </div>
-          <div className="stat">
-            <span className="stat-label">Armor:</span>
-            <span className="stat-value">{mech.armor}</span>
+            <span className="stat-value">{mech.speed}/{mech.runSpeed}</span>
           </div>
           {mech.jumpJets > 0 && (
             <div className="stat">
@@ -115,44 +108,47 @@ function MechCard({ mech, onSelect, isSelected, onOwnedCountChange, compactView 
               <span className="stat-value">{mech.jumpJets}</span>
             </div>
           )}
+          <div className="stat">
+            <span className="stat-label">Armor:</span>
+            <span className="stat-value">{mech.armor}</span>
+          </div>
         </div>
 
-        <div className="mech-weapons-compact">
-          <span className="weapons-label">Weapons:</span>
-          <div className="weapons-list">
-            {mech.weapons.slice(0, 3).map((weapon, index) => (
-              <span key={index} className="weapon-tag">{abbreviateWeaponName(weapon)}</span>
-            ))}
-            {mech.weapons.length > 3 && (
-              <span className="weapon-tag more">+{mech.weapons.length - 3}</span>
+        <div className="mech-weapons-footer">
+          <div className="mech-weapons-compact">
+            <span className="weapons-label">Weapons:</span>
+            <div className="weapons-list">
+              {mech.weapons.slice(0, 3).map((weapon, index) => (
+                <span key={index} className="weapon-tag">{abbreviateWeaponName(weapon)}</span>
+              ))}
+              {mech.weapons.length > 3 && (
+                <span className="weapon-tag more">+{mech.weapons.length - 3}</span>
+              )}
+            </div>
+          </div>
+          <div className="owned-section-compact" onClick={handleOwnedClick}>
+            <span className="owned-label">Owned:</span>
+            {isEditingOwned ? (
+              <input
+                type="number"
+                min="0"
+                value={ownedValue}
+                onChange={handleOwnedChange}
+                onBlur={handleOwnedBlur}
+                onFocus={handleOwnedFocus}
+                onClick={(e) => e.stopPropagation()}
+                autoFocus
+                className="owned-input"
+              />
+            ) : (
+              <span className={`owned-count ${mech.ownedCount > 0 ? 'has-mini' : ''}`}>
+                {mech.ownedCount}
+              </span>
             )}
           </div>
         </div>
       </div>
 
-      <div className="mech-card-footer">
-        <div className="owned-section" onClick={handleOwnedClick}>
-          <span className="owned-label">Owned:</span>
-          {isEditingOwned ? (
-            <input
-              type="number"
-              min="0"
-              value={ownedValue}
-              onChange={handleOwnedChange}
-              onBlur={handleOwnedBlur}
-              onFocus={handleOwnedFocus}
-              onClick={(e) => e.stopPropagation()}
-              autoFocus
-              className="owned-input"
-            />
-          ) : (
-            <span className={`owned-count ${mech.ownedCount > 0 ? 'has-mini' : ''}`}>
-              {mech.ownedCount}
-            </span>
-          )}
-        </div>
-        <div className="drag-hint">Drag to lance</div>
-      </div>
     </div>
   );
 }

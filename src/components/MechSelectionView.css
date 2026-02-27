@@ -46,6 +46,14 @@
   flex-wrap: wrap;
 }
 
+.filter-button-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
 .toggle-advanced-btn {
   padding: 8px 16px;
   background: rgba(0, 170, 255, 0.2);
@@ -55,7 +63,6 @@
   font-size: 0.9em;
   cursor: pointer;
   transition: all 0.2s;
-  align-self: flex-start;
 }
 
 .toggle-advanced-btn:hover {

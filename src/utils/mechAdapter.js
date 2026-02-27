@@ -34,13 +34,16 @@ export function adaptMechForUI(detailedMech) {
 
   // Extract movement from array format: [walk, run, jump]
   let walkSpeed = 0;
+  let runSpeed = 0;
   let jumpSpeed = 0;
 
   if (Array.isArray(detailedMech.movement)) {
     walkSpeed = detailedMech.movement[0] || 0;
+    runSpeed = detailedMech.movement[1] || 0;
     jumpSpeed = detailedMech.movement[2] || 0;
   } else if (detailedMech.movement && typeof detailedMech.movement === 'object') {
     walkSpeed = detailedMech.movement.walk || 0;
+    runSpeed = detailedMech.movement.run || 0;
     jumpSpeed = detailedMech.movement.jump || 0;
   }
 
@@ -54,6 +57,7 @@ export function adaptMechForUI(detailedMech) {
     role: detailedMech.role || 'Unknown',
     armor: totalArmor,
     speed: walkSpeed,
+    runSpeed: runSpeed,
     jumpJets: jumpSpeed,
     ownedCount: 0 // Default to 0, will be loaded from storage
   };

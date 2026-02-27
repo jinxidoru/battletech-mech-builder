@@ -132,12 +132,19 @@ function MechSelectionView({ mechs, onMechSelect, selectedMech, onOwnedCountChan
             </div>
           </div>
 
-          <button
-            className="toggle-advanced-btn"
-            onClick={() => setShowAdvancedFilters(!showAdvancedFilters)}
-          >
-            {showAdvancedFilters ? '- Hide' : '+ Show'} Advanced Filters
-          </button>
+          <div className="filter-button-row">
+            <button
+              className="toggle-advanced-btn"
+              onClick={() => setShowAdvancedFilters(!showAdvancedFilters)}
+            >
+              {showAdvancedFilters ? '- Hide' : '+ Show'} Advanced Filters
+            </button>
+            {hasActiveFilters && (
+              <button className="clear-filters-btn" onClick={clearFilters}>
+                Clear All Filters
+              </button>
+            )}
+          </div>
         </div>
 
         {/* Advanced Filters - Collapsible */}
@@ -214,12 +221,6 @@ function MechSelectionView({ mechs, onMechSelect, selectedMech, onOwnedCountChan
               />
             </div>
           </div>
-        )}
-
-        {hasActiveFilters && (
-          <button className="clear-filters-btn" onClick={clearFilters}>
-            Clear All Filters
-          </button>
         )}
       </div>
 

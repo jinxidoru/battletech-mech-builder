@@ -1,10 +1,12 @@
 import { useState } from 'react';
 import { calculateAdjustedBV, calculateLanceBV, findBestSkillsForTarget } from '../utils/bvCalculator';
 import { BASELINE_SKILLS } from '../types';
+import { abbreviateWeaponName } from '../utils/weaponFormatter';
 import './LanceEditor.css';
 
 function LanceEditor({ lance, mechs, onLanceUpdate, onMechSelect }) {
   const [targetBV, setTargetBV] = useState('');
+  const [compactView, setCompactView] = useState(false);
 
   const handleDrop = (e) => {
     e.preventDefault();
@@ -131,6 +133,13 @@ function LanceEditor({ lance, mechs, onLanceUpdate, onMechSelect }) {
   const mechCount = lance.mechs.length;
   const showMechCountWarning = mechCount > 0 && mechCount !== 4 && mechCount !== 5;
 
+  const getTonnageClass = (tonnage) => {
+    if (tonnage <= 35) return 'light';
+    if (tonnage <= 55) return 'medium';
+    if (tonnage <= 75) return 'heavy';
+    return 'assault';
+  };
+
   return (
     <div className="lance-editor">
       <div className="lance-header">
@@ -172,21 +181,33 @@ function LanceEditor({ lance, mechs, onLanceUpdate, onMechSelect }) {
           </div>
         </div>
 
-        <div className="auto-balance-section">
-          <input
-            type="number"
-            placeholder="Target BV"
-            value={targetBV}
-            onChange={(e) => setTargetBV(e.target.value)}
-            className="target-bv-input"
-          />
-          <button
-            onClick={handleAutoBalance}
-            disabled={lance.mechs.length === 0}
-            className="auto-balance-btn"
-          >
-            Auto-Balance
-          </button>
+        <div className="lance-header-controls">
+          <div className="auto-balance-section">
+            <input
+              type="number"
+              placeholder="Target BV"
+              value={targetBV}
+              onChange={(e) => setTargetBV(e.target.value)}
+              className="target-bv-input"
+            />
+            <button
+              onClick={handleAutoBalance}
+              disabled={lance.mechs.length === 0}
+              className="auto-balance-btn"
+            >
+              Auto-Balance
+            </button>
+          </div>
+          <div className="compact-toggle">
+            <label>
+              <input
+                type="checkbox"
+                checked={compactView}
+                onChange={(e) => setCompactView(e.target.checked)}
+              />
+              <span>Compact View</span>
+            </label>
+          </div>
         </div>
       </div>
 
@@ -206,10 +227,86 @@ function LanceEditor({ lance, mechs, onLanceUpdate, onMechSelect }) {
               const mech = mechs.find(m => m.id === lanceMech.mechId);
               if (!mech) return null;
 
+              if (compactView) {
+                return (
+                  <div
+                    key={index}
+                    className={`lance-mech-item compact clickable ${getTonnageClass(mech.tonnage)}`}
+                    onClick={() => onMechSelect && onMechSelect(mech)}
+                    title="Click to preview this mech"
+                  >
+                    <div className="lance-mech-compact-header">
+                      <div className="lance-mech-info">
+                        <h3>{mech.name}</h3>
+                        <span className="variant">{mech.variant}</span>
+                      </div>
+                      <button
+                        className="remove-btn"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleRemoveMech(index);
+                        }}
+                        title="Remove from lance"
+                      >
+                        ×
+                      </button>
+                    </div>
+
+                    <div className="lance-mech-compact-content">
+                      <div className="compact-badges">
+                        <span className={`tonnage-badge ${getTonnageClass(mech.tonnage)}`}>
+                          {mech.tonnage}t
+                        </span>
+                        <span className="bv-badge">{lanceMech.adjustedBV} BV</span>
+                      </div>
+
+                      <div className="lance-mech-skills">
+                        <div className="skill-control">
+                          <label>G:</label>
+                          <input
+                            type="number"
+                            min="0"
+                            max="8"
+                            value={lanceMech.gunnery}
+                            onChange={(e) => handleSkillChange(index, 'gunnery', e.target.value)}
+                            onClick={(e) => e.stopPropagation()}
+                            disabled={lanceMech.skillsLocked}
+                          />
+                        </div>
+
+                        <div className="skill-control">
+                          <label>P:</label>
+                          <input
+                            type="number"
+                            min="0"
+                            max="8"
+                            value={lanceMech.piloting}
+                            onChange={(e) => handleSkillChange(index, 'piloting', e.target.value)}
+                            onClick={(e) => e.stopPropagation()}
+                            disabled={lanceMech.skillsLocked}
+                          />
+                        </div>
+
+                        <button
+                          className={`lock-btn ${lanceMech.skillsLocked ? 'locked' : ''}`}
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            handleLockToggle(index);
+                          }}
+                          title={lanceMech.skillsLocked ? 'Unlock skills' : 'Lock skills'}
+                        >
+                          {lanceMech.skillsLocked ? '🔒' : '🔓'}
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                );
+              }
+
               return (
                 <div
                   key={index}
-                  className="lance-mech-item clickable"
+                  className={`lance-mech-item clickable ${getTonnageClass(mech.tonnage)}`}
                   onClick={() => onMechSelect && onMechSelect(mech)}
                   title="Click to preview this mech"
                 >
@@ -217,6 +314,13 @@ function LanceEditor({ lance, mechs, onLanceUpdate, onMechSelect }) {
                     <div className="lance-mech-info">
                       <h3>{mech.name}</h3>
                       <span className="variant">{mech.variant}</span>
+                    </div>
+                    <div className="lance-mech-badges">
+                      <span className={`tonnage-badge ${getTonnageClass(mech.tonnage)}`}>
+                        {mech.tonnage}t
+                      </span>
+                      <span className="bv-badge">{mech.baseBV} BV</span>
+                      <span className="role-badge">{mech.role}</span>
                     </div>
                     <button
                       className="remove-btn"
@@ -230,58 +334,88 @@ function LanceEditor({ lance, mechs, onLanceUpdate, onMechSelect }) {
                     </button>
                   </div>
 
-                  <div className="lance-mech-stats">
-                    <div className="stat-item">
-                      <span className="label">Tonnage:</span>
-                      <span className="value">{mech.tonnage}t</span>
+                  <div className="lance-mech-body">
+                    <div className="lance-mech-movement-stats">
+                      <div className="stat">
+                        <span className="stat-label">Speed:</span>
+                        <span className="stat-value">{mech.speed}/{mech.runSpeed}</span>
+                      </div>
+                      {mech.jumpJets > 0 && (
+                        <div className="stat">
+                          <span className="stat-label">Jump:</span>
+                          <span className="stat-value">{mech.jumpJets}</span>
+                        </div>
+                      )}
+                      <div className="stat">
+                        <span className="stat-label">Armor:</span>
+                        <span className="stat-value">{mech.armor}</span>
+                      </div>
                     </div>
-                    <div className="stat-item">
-                      <span className="label">Base BV:</span>
-                      <span className="value">{mech.baseBV}</span>
+
+                    <div className="lance-mech-weapons">
+                      <span className="weapons-label">Weapons:</span>
+                      <div className="weapons-list">
+                        {mech.weapons.slice(0, 3).map((weapon, wIndex) => (
+                          <span key={wIndex} className="weapon-tag">{abbreviateWeaponName(weapon)}</span>
+                        ))}
+                        {mech.weapons.length > 3 && (
+                          <span className="weapon-tag more">+{mech.weapons.length - 3}</span>
+                        )}
+                      </div>
                     </div>
-                    <div className="stat-item highlight">
+
+                    {mech.ownedCount > 0 && (
+                      <div className="owned-indicator">
+                        <span className="owned-icon">✓</span>
+                        <span className="owned-text">Owned: {mech.ownedCount}</span>
+                      </div>
+                    )}
+                  </div>
+
+                  <div className="lance-mech-footer">
+                    <div className="lance-mech-skills">
+                      <div className="skill-control">
+                        <label>Gunnery:</label>
+                        <input
+                          type="number"
+                          min="0"
+                          max="8"
+                          value={lanceMech.gunnery}
+                          onChange={(e) => handleSkillChange(index, 'gunnery', e.target.value)}
+                          onClick={(e) => e.stopPropagation()}
+                          disabled={lanceMech.skillsLocked}
+                        />
+                      </div>
+
+                      <div className="skill-control">
+                        <label>Piloting:</label>
+                        <input
+                          type="number"
+                          min="0"
+                          max="8"
+                          value={lanceMech.piloting}
+                          onChange={(e) => handleSkillChange(index, 'piloting', e.target.value)}
+                          onClick={(e) => e.stopPropagation()}
+                          disabled={lanceMech.skillsLocked}
+                        />
+                      </div>
+
+                      <button
+                        className={`lock-btn ${lanceMech.skillsLocked ? 'locked' : ''}`}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleLockToggle(index);
+                        }}
+                        title={lanceMech.skillsLocked ? 'Unlock skills' : 'Lock skills'}
+                      >
+                        {lanceMech.skillsLocked ? '🔒' : '🔓'}
+                      </button>
+                    </div>
+
+                    <div className="adjusted-bv-display">
                       <span className="label">Adjusted BV:</span>
                       <span className="value">{lanceMech.adjustedBV}</span>
                     </div>
-                  </div>
-
-                  <div className="lance-mech-skills">
-                    <div className="skill-control">
-                      <label>Gunnery:</label>
-                      <input
-                        type="number"
-                        min="0"
-                        max="8"
-                        value={lanceMech.gunnery}
-                        onChange={(e) => handleSkillChange(index, 'gunnery', e.target.value)}
-                        onClick={(e) => e.stopPropagation()}
-                        disabled={lanceMech.skillsLocked}
-                      />
-                    </div>
-
-                    <div className="skill-control">
-                      <label>Piloting:</label>
-                      <input
-                        type="number"
-                        min="0"
-                        max="8"
-                        value={lanceMech.piloting}
-                        onChange={(e) => handleSkillChange(index, 'piloting', e.target.value)}
-                        onClick={(e) => e.stopPropagation()}
-                        disabled={lanceMech.skillsLocked}
-                      />
-                    </div>
-
-                    <button
-                      className={`lock-btn ${lanceMech.skillsLocked ? 'locked' : ''}`}
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        handleLockToggle(index);
-                      }}
-                      title={lanceMech.skillsLocked ? 'Unlock skills' : 'Lock skills'}
-                    >
-                      {lanceMech.skillsLocked ? '🔒' : '🔓'}
-                    </button>
                   </div>
                 </div>
               );

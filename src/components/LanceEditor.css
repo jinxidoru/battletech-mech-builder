@@ -10,16 +10,28 @@
   background: #222;
   border-bottom: 2px solid #333;
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-wrap: wrap;
+  flex-direction: column;
   gap: 16px;
 }
 
+.lance-title {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
 .lance-title h2 {
-  margin: 0 0 12px 0;
+  margin: 0;
   color: #fff;
   font-size: 1.5em;
+}
+
+.lance-header-controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
 }
 
 .lance-stats {
@@ -74,6 +86,24 @@
   display: flex;
   gap: 12px;
   align-items: center;
+}
+
+.compact-toggle {
+  display: flex;
+  align-items: center;
+}
+
+.compact-toggle label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  color: #ccc;
+  font-size: 0.9em;
+}
+
+.compact-toggle input[type="checkbox"] {
+  cursor: pointer;
 }
 
 .target-bv-input {
@@ -160,6 +190,17 @@
   transition: all 0.2s;
 }
 
+/* Tonnage-based color coding for lance cards */
+.lance-mech-item.light { border-left: 4px solid #4a9eff; }
+.lance-mech-item.medium { border-left: 4px solid #ffa500; }
+.lance-mech-item.heavy { border-left: 4px solid #ff4444; }
+.lance-mech-item.assault { border-left: 4px solid #aa00ff; }
+
+/* Compact view for lance cards */
+.lance-mech-item.compact {
+  padding: 12px;
+}
+
 .lance-mech-item.clickable {
   cursor: pointer;
 }
@@ -174,9 +215,30 @@
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
+  gap: 12px;
   margin-bottom: 12px;
   padding-bottom: 12px;
   border-bottom: 1px solid #444;
+}
+
+.lance-mech-compact-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 8px;
+}
+
+.lance-mech-compact-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+}
+
+.compact-badges {
+  display: flex;
+  gap: 6px;
+  flex-shrink: 0;
 }
 
 .lance-mech-info h3 {
@@ -190,6 +252,48 @@
   color: #888;
   font-size: 0.85em;
   margin-top: 4px;
+}
+
+.lance-mech-badges {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  align-items: flex-end;
+  flex-shrink: 0;
+}
+
+.lance-mech-badges .tonnage-badge,
+.lance-mech-badges .bv-badge,
+.lance-mech-badges .role-badge,
+.compact-badges .tonnage-badge,
+.compact-badges .bv-badge {
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 0.75em;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.lance-mech-badges .tonnage-badge,
+.compact-badges .tonnage-badge {
+  background: rgba(70, 70, 70, 0.6);
+  color: #fff;
+}
+
+.tonnage-badge.light { background: rgba(74, 158, 255, 0.3); color: #4a9eff; }
+.tonnage-badge.medium { background: rgba(255, 165, 0, 0.3); color: #ffa500; }
+.tonnage-badge.heavy { background: rgba(255, 68, 68, 0.3); color: #ff4444; }
+.tonnage-badge.assault { background: rgba(170, 0, 255, 0.3); color: #aa00ff; }
+
+.lance-mech-badges .bv-badge,
+.compact-badges .bv-badge {
+  background: rgba(0, 170, 255, 0.2);
+  color: #00aaff;
+}
+
+.lance-mech-badges .role-badge {
+  background: rgba(0, 200, 100, 0.2);
+  color: #00c864;
 }
 
 .remove-btn {
@@ -211,36 +315,122 @@
   transform: scale(1.1);
 }
 
-.lance-mech-stats {
+.lance-mech-body {
   display: flex;
-  gap: 24px;
+  flex-direction: column;
+  gap: 8px;
   margin-bottom: 12px;
+}
+
+.lance-mech-movement-stats {
+  display: flex;
+  gap: 12px;
   flex-wrap: wrap;
 }
 
-.stat-item {
+.lance-mech-movement-stats .stat {
   display: flex;
-  gap: 6px;
-  font-size: 0.95em;
+  gap: 4px;
+  font-size: 0.9em;
 }
 
-.stat-item .label {
+.lance-mech-movement-stats .stat-label {
   color: #888;
 }
 
-.stat-item .value {
+.lance-mech-movement-stats .stat-value {
   color: #fff;
   font-weight: 600;
 }
 
-.stat-item.highlight .value {
+.lance-mech-weapons {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.lance-mech-weapons .weapons-label {
+  font-size: 0.8em;
+  color: #888;
+  flex-shrink: 0;
+}
+
+.lance-mech-weapons .weapons-list {
+  display: flex;
+  gap: 4px;
+  flex-wrap: wrap;
+}
+
+.lance-mech-weapons .weapon-tag {
+  display: inline-block;
+  padding: 2px 6px;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid #444;
+  border-radius: 3px;
+  font-size: 0.75em;
+  color: #ccc;
+}
+
+.lance-mech-weapons .weapon-tag.more {
+  background: rgba(0, 170, 255, 0.2);
   color: #00aaff;
-  font-size: 1.1em;
+  border-color: #00aaff;
+}
+
+.owned-indicator {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 8px;
+  background: rgba(0, 200, 100, 0.15);
+  border-radius: 4px;
+  font-size: 0.85em;
+  align-self: flex-start;
+}
+
+.owned-indicator .owned-icon {
+  color: #00c864;
+  font-weight: bold;
+}
+
+.owned-indicator .owned-text {
+  color: #00c864;
+}
+
+.lance-mech-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 12px;
+  border-top: 1px solid #444;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.adjusted-bv-display {
+  display: flex;
+  gap: 8px;
+  align-items: baseline;
+  padding: 6px 12px;
+  background: rgba(0, 170, 255, 0.15);
+  border-radius: 4px;
+}
+
+.adjusted-bv-display .label {
+  color: #888;
+  font-size: 0.9em;
+}
+
+.adjusted-bv-display .value {
+  color: #00aaff;
+  font-weight: 600;
+  font-size: 1.2em;
 }
 
 .lance-mech-skills {
   display: flex;
-  gap: 16px;
+  gap: 12px;
   align-items: center;
   flex-wrap: wrap;
 }
@@ -260,6 +450,11 @@
   min-width: 70px;
 }
 
+.lance-mech-item.compact .skill-control label {
+  min-width: auto;
+  font-size: 0.85em;
+}
+
 .skill-control input {
   width: 50px;
   padding: 6px 8px;
@@ -269,6 +464,12 @@
   color: #fff;
   font-size: 0.95em;
   text-align: center;
+}
+
+.lance-mech-item.compact .skill-control input {
+  width: 40px;
+  padding: 4px 6px;
+  font-size: 0.85em;
 }
 
 .skill-control input:focus {
@@ -294,6 +495,13 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-shrink: 0;
+}
+
+.lance-mech-item.compact .lock-btn {
+  width: 30px;
+  height: 30px;
+  font-size: 1em;
 }
 
 .lock-btn:hover {

@@ -51,7 +51,7 @@ export const mechs = [
     rulesLevel: 'Introductory',
     movement: [8, 12, 0],
     armor: [8, 10, 2, 8, 2, 8, 2, 4, 4, 8, 8],
-    structure: [3, 6, 4, 4, 2, 2, 4, 4],
+    structure: [3, 6, 5, 5, 3, 3, 4, 4],
 
     weapons: [
       [1, 'RA', weapons.medium_laser],
@@ -93,7 +93,7 @@ export const mechs = [
     variant_name: 'Mirage',
     source: {
       file: 'BattleTech_Record_Sheets_Succession_Wars.pdf',
-      page: 47
+      page: 50
     },
     tonnage: 35,
     bv: 798,
@@ -154,7 +154,7 @@ export const mechs = [
     variant: 'BJ-1X',
     source: {
       file: 'BattleTech_Record_Sheets_Succession_Wars.pdf',
-      page: 97
+      page: 100
     },
     tonnage: 45,
     bv: 964,
@@ -211,7 +211,7 @@ export const mechs = [
     variant: 'GLT-4P',
     source: {
       file: 'BattleTech_Record_Sheets_Succession_Wars.pdf',
-      page: 198
+      page: 201
     },
     tonnage: 70,
     bv: 1376,
@@ -281,31 +281,32 @@ export const mechs = [
     rulesLevel: 'Introductory',
     movement: [3, 5, 0],
     armor: [9, 47, 17, 32, 10, 32, 10, 34, 34, 41, 41],
-    structure: [3, 31, 15, 15, 12, 12, 15, 15],
+    structure: [3, 31, 21, 21, 12, 12, 15, 15],
 
     weapons: [
       [1, 'CT', weapons.srm6],
       [1, 'CT', weapons.lrm20],
       [1, 'LT', weapons.ac5],
+      [1, 'RT', weapons.ac5],
       [1, 'RA', weapons.medium_laser],
-      [1, 'RA', weapons.ac5]
+      [1, 'LA', weapons.medium_laser]
     ],
 
     ammo: [
       { type: 'AC/5', rounds: 20, location: 'RT' },
       { type: 'LRM 20', rounds: 12, location: 'LT' },
-      { type: 'SRM 6', rounds: 30, location: 'RT' }
+      { type: 'SRM 6', rounds: 60, location: 'LL/RT' }
     ],
 
     criticals: {
       head: ['LIFE_SUPPORT', 'SENSORS', 'COCKPIT', 'SENSORS', 'SENSORS', 'LIFE_SUPPORT'],
       leftArm: [
-        ['SHOULDER', 'UPPER_ARM_ACTUATOR', 'LOWER_ARM_ACTUATOR', 'Hand Actuator'],
-        ['SHOULDER', 'UPPER_ARM_ACTUATOR', 'LOWER_ARM_ACTUATOR', 'Medium Laser']
+        ['SHOULDER', 'UPPER_ARM_ACTUATOR', 'LOWER_ARM_ACTUATOR', 'Hand Actuator', 'Medium Laser', 'HEAT_SINK'],
+        []
       ],
       rightArm: [
-        ['SHOULDER', 'UPPER_ARM_ACTUATOR', 'LOWER_ARM_ACTUATOR', 'Hand Actuator'],
-        ['SHOULDER', 'UPPER_ARM_ACTUATOR', 'LOWER_ARM_ACTUATOR', 'Medium Laser']
+        ['SHOULDER', 'UPPER_ARM_ACTUATOR', 'LOWER_ARM_ACTUATOR', 'Hand Actuator', 'Medium Laser', 'HEAT_SINK'],
+        []
       ],
       leftTorso: [
         ['AC/5', 'AC/5', 'AC/5', 'AC/5'],
