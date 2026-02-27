@@ -1,10 +1,17 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { abbreviateWeaponName } from '../utils/weaponFormatter';
 import './MechCard.css';
 
 function MechCard({ mech, onSelect, isSelected, onOwnedCountChange, compactView }) {
   const [isEditingOwned, setIsEditingOwned] = useState(false);
   const [ownedValue, setOwnedValue] = useState(mech.ownedCount);
+
+  // Update ownedValue when mech.ownedCount changes (e.g., when a variant is updated)
+  useEffect(() => {
+    if (!isEditingOwned) {
+      setOwnedValue(mech.ownedCount);
+    }
+  }, [mech.ownedCount, isEditingOwned]);
 
   const handleOwnedClick = (e) => {
     e.stopPropagation();
