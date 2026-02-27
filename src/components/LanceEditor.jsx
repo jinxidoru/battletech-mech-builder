@@ -240,16 +240,6 @@ function LanceEditor({ lance, mechs, onLanceUpdate, onMechSelect }) {
                         <h3>{mech.name}</h3>
                         <span className="variant">{mech.variant}</span>
                       </div>
-                      <button
-                        className="remove-btn"
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          handleRemoveMech(index);
-                        }}
-                        title="Remove from lance"
-                      >
-                        ×
-                      </button>
                     </div>
 
                     <div className="lance-mech-compact-content">
@@ -257,7 +247,19 @@ function LanceEditor({ lance, mechs, onLanceUpdate, onMechSelect }) {
                         <span className={`tonnage-badge ${getTonnageClass(mech.tonnage)}`}>
                           {mech.tonnage}t
                         </span>
-                        <span className="bv-badge">{lanceMech.adjustedBV} BV</span>
+                        <div className="adjusted-bv-with-remove">
+                          <span className="bv-badge">{lanceMech.adjustedBV} BV</span>
+                          <button
+                            className="remove-btn"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              handleRemoveMech(index);
+                            }}
+                            title="Remove from lance"
+                          >
+                            ×
+                          </button>
+                        </div>
                       </div>
 
                       <div className="lance-mech-skills">
@@ -322,16 +324,6 @@ function LanceEditor({ lance, mechs, onLanceUpdate, onMechSelect }) {
                       <span className="bv-badge">{mech.baseBV} BV</span>
                       <span className="role-badge">{mech.role}</span>
                     </div>
-                    <button
-                      className="remove-btn"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        handleRemoveMech(index);
-                      }}
-                      title="Remove from lance"
-                    >
-                      ×
-                    </button>
                   </div>
 
                   <div className="lance-mech-body">
@@ -412,9 +404,21 @@ function LanceEditor({ lance, mechs, onLanceUpdate, onMechSelect }) {
                       </button>
                     </div>
 
-                    <div className="adjusted-bv-display">
-                      <span className="label">Adjusted BV:</span>
-                      <span className="value">{lanceMech.adjustedBV}</span>
+                    <div className="adjusted-bv-with-remove">
+                      <div className="adjusted-bv-display">
+                        <span className="label">Adjusted BV:</span>
+                        <span className="value">{lanceMech.adjustedBV}</span>
+                      </div>
+                      <button
+                        className="remove-btn"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleRemoveMech(index);
+                        }}
+                        title="Remove from lance"
+                      >
+                        ×
+                      </button>
                     </div>
                   </div>
                 </div>
