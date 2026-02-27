@@ -73,8 +73,8 @@ export const mechs = [
       leftTorso: [[], []],
       rightTorso: [[], []],
       centerTorso: [
-        ['FUSION_ENGINE', 'FUSION_ENGINE', 'FUSION_ENGINE', 'GYRO', 'GYRO', 'GYRO'],
-        ['FUSION_ENGINE', 'FUSION_ENGINE', 'FUSION_ENGINE', 'GYRO', 'GYRO', 'GYRO']
+        ['FUSION_ENGINE', 'FUSION_ENGINE', 'FUSION_ENGINE'],
+        ['GYRO', 'GYRO', 'GYRO']
       ],
       leftLeg: ['HIP', 'UPPER_LEG_ACTUATOR', 'LOWER_LEG_ACTUATOR', 'FOOT_ACTUATOR', 'HEAT_SINK', 'HEAT_SINK'],
       rightLeg: ['HIP', 'UPPER_LEG_ACTUATOR', 'LOWER_LEG_ACTUATOR', 'FOOT_ACTUATOR', 'HEAT_SINK', 'HEAT_SINK']
