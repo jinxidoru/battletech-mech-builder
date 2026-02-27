@@ -126,8 +126,8 @@ export const mechs = [
       leftTorso: [[], []],
       rightTorso: [[], []],
       centerTorso: [
-        ['FUSION_ENGINE', 'FUSION_ENGINE', 'FUSION_ENGINE', 'GYRO', 'GYRO', 'GYRO'],
-        ['FUSION_ENGINE', 'FUSION_ENGINE', 'FUSION_ENGINE', 'GYRO', 'GYRO', 'GYRO']
+        ['FUSION_ENGINE', 'FUSION_ENGINE', 'FUSION_ENGINE'],
+        ['GYRO', 'GYRO', 'GYRO']
       ],
       leftLeg: ['HIP', 'UPPER_LEG_ACTUATOR', 'LOWER_LEG_ACTUATOR', 'FOOT_ACTUATOR', 'HEAT_SINK', 'HEAT_SINK'],
       rightLeg: ['HIP', 'UPPER_LEG_ACTUATOR', 'LOWER_LEG_ACTUATOR', 'FOOT_ACTUATOR', 'HEAT_SINK', 'HEAT_SINK']
@@ -188,8 +188,8 @@ export const mechs = [
         ['Ammo (Machine Gun) 200']
       ],
       centerTorso: [
-        ['FUSION_ENGINE', 'FUSION_ENGINE', 'FUSION_ENGINE', 'GYRO', 'GYRO', 'GYRO'],
-        ['FUSION_ENGINE', 'FUSION_ENGINE', 'FUSION_ENGINE', 'GYRO', 'GYRO', 'GYRO']
+        ['FUSION_ENGINE', 'FUSION_ENGINE', 'FUSION_ENGINE'],
+        ['GYRO', 'GYRO', 'GYRO']
       ],
       leftLeg: ['HIP', 'UPPER_LEG_ACTUATOR', 'LOWER_LEG_ACTUATOR', 'FOOT_ACTUATOR', 'JUMP_JET', 'JUMP_JET'],
       rightLeg: ['HIP', 'UPPER_LEG_ACTUATOR', 'LOWER_LEG_ACTUATOR', 'FOOT_ACTUATOR', 'JUMP_JET', 'JUMP_JET']
@@ -245,8 +245,8 @@ export const mechs = [
         []
       ],
       centerTorso: [
-        ['FUSION_ENGINE', 'FUSION_ENGINE', 'FUSION_ENGINE', 'GYRO', 'GYRO', 'GYRO'],
-        ['FUSION_ENGINE', 'FUSION_ENGINE', 'FUSION_ENGINE', 'GYRO', 'GYRO', 'GYRO']
+        ['FUSION_ENGINE', 'FUSION_ENGINE', 'FUSION_ENGINE'],
+        ['GYRO', 'GYRO', 'GYRO']
       ],
       leftLeg: ['HIP', 'UPPER_LEG_ACTUATOR', 'LOWER_LEG_ACTUATOR', 'FOOT_ACTUATOR', 'HEAT_SINK'],
       rightLeg: ['HIP', 'UPPER_LEG_ACTUATOR', 'LOWER_LEG_ACTUATOR', 'FOOT_ACTUATOR', 'HEAT_SINK']
@@ -264,7 +264,7 @@ export const mechs = [
     variant: 'GLT-4P',
     source: {
       file: 'BattleTech_Record_Sheets_Succession_Wars.pdf',
-      page: 201
+      page: 200
     },
     tonnage: 70,
     bv: 1376,
@@ -306,8 +306,8 @@ export const mechs = [
         ['JUMP_JET', 'Medium Laser']
       ],
       centerTorso: [
-        ['FUSION_ENGINE', 'FUSION_ENGINE', 'FUSION_ENGINE', 'GYRO', 'GYRO', 'GYRO'],
-        ['FUSION_ENGINE', 'FUSION_ENGINE', 'FUSION_ENGINE', 'GYRO', 'GYRO', 'GYRO']
+        ['FUSION_ENGINE', 'FUSION_ENGINE', 'FUSION_ENGINE'],
+        ['GYRO', 'GYRO', 'GYRO']
       ],
       leftLeg: ['HIP', 'UPPER_LEG_ACTUATOR', 'LOWER_LEG_ACTUATOR', 'FOOT_ACTUATOR', 'HEAT_SINK', 'JUMP_JET'],
       rightLeg: ['HIP', 'UPPER_LEG_ACTUATOR', 'LOWER_LEG_ACTUATOR', 'FOOT_ACTUATOR', 'HEAT_SINK', 'JUMP_JET']
@@ -370,8 +370,8 @@ export const mechs = [
         ['SRM 6', 'SRM 6']
       ],
       centerTorso: [
-        ['FUSION_ENGINE', 'FUSION_ENGINE', 'FUSION_ENGINE', 'GYRO', 'GYRO', 'GYRO'],
-        ['FUSION_ENGINE', 'FUSION_ENGINE', 'FUSION_ENGINE', 'GYRO', 'GYRO', 'GYRO']
+        ['FUSION_ENGINE', 'FUSION_ENGINE', 'FUSION_ENGINE'],
+        ['GYRO', 'GYRO', 'GYRO']
       ],
       leftLeg: ['HIP', 'UPPER_LEG_ACTUATOR', 'LOWER_LEG_ACTUATOR', 'FOOT_ACTUATOR', 'Ammo (SRM 6) 15', 'Ammo (SRM 6) 15'],
       rightLeg: ['HIP', 'UPPER_LEG_ACTUATOR', 'LOWER_LEG_ACTUATOR', 'FOOT_ACTUATOR', 'HEAT_SINK', 'HEAT_SINK']
