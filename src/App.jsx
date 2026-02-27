@@ -2,15 +2,12 @@ import { useState, useEffect } from 'react';
 import MechSelectionView from './components/MechSelectionView';
 import LanceEditor from './components/LanceEditor';
 import MechPreviewPanel from './components/MechPreviewPanel';
-import { MOCK_MECHS } from './mockData';
 import detailedMechsData from './data/mechs';
 import { adaptMechsForUI } from './utils/mechAdapter';
 import './App.css';
 
-// Use real mech data if available, otherwise fall back to mock data
-const initialMechs = detailedMechsData && detailedMechsData.length > 0
-  ? adaptMechsForUI(detailedMechsData)
-  : MOCK_MECHS;
+// Use real mech data from the mechs.js file
+const initialMechs = adaptMechsForUI(detailedMechsData);
 
 function App() {
   const [mechs, setMechs] = useState(initialMechs);
@@ -26,7 +23,16 @@ function App() {
     const savedMechs = localStorage.getItem('battletech-mechs');
     if (savedMechs) {
       try {
-        setMechs(JSON.parse(savedMechs));
+        const savedMechsData = JSON.parse(savedMechs);
+        // Merge saved owned counts with the real mech data
+        const mergedMechs = initialMechs.map(mech => {
+          const savedMech = savedMechsData.find(m => m.id === mech.id);
+          return {
+            ...mech,
+            ownedCount: savedMech?.ownedCount ?? 0
+          };
+        });
+        setMechs(mergedMechs);
       } catch (e) {
         console.error('Failed to load mechs from localStorage', e);
       }

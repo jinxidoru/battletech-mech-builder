@@ -63,12 +63,12 @@ export const mechs = [
     criticals: {
       head: ['LIFE_SUPPORT', 'SENSORS', 'COCKPIT', null, 'SENSORS', 'LIFE_SUPPORT'],
       leftArm: [
-        ['SHOULDER', 'UPPER_ARM_ACTUATOR', 'LOWER_ARM_ACTUATOR', 'Small Laser'],
-        ['SHOULDER', 'UPPER_ARM_ACTUATOR', 'LOWER_ARM_ACTUATOR', 'Medium Laser']
+        ['SHOULDER', 'UPPER_ARM_ACTUATOR', 'Medium Laser', 'Small Laser'],
+        []
       ],
       rightArm: [
-        ['SHOULDER', 'UPPER_ARM_ACTUATOR', 'LOWER_ARM_ACTUATOR', 'Small Laser'],
-        ['SHOULDER', 'UPPER_ARM_ACTUATOR', 'LOWER_ARM_ACTUATOR', 'Medium Laser']
+        ['SHOULDER', 'UPPER_ARM_ACTUATOR', 'Medium Laser', 'Small Laser'],
+        []
       ],
       leftTorso: [[], []],
       rightTorso: [[], []],
