@@ -7,6 +7,7 @@ import detailedMechsData from './data/mechs';
 import { adaptMechsForUI } from './utils/mechAdapter';
 import { getBaseMechName, migrateOwnedCounts } from './utils/mechNameUtils';
 import { calculateAdjustedBV } from './utils/bvCalculator';
+import { isLanceDirty } from './utils/lanceComparison';
 import './App.css';
 
 // Use real mech data from the mechs.js file
@@ -196,17 +197,24 @@ function App() {
 
   const handleLanceUpdate = (updatedLance) => {
     setLance(updatedLance);
-    setIsDirty(true);
+    // Use smart dirty detection - only mark dirty if data actually changed
+    const dirty = isLanceDirty(updatedLance, targetBV, savedLanceSnapshot);
+    setIsDirty(dirty);
   };
 
   const handleTargetBVChange = (newTargetBV) => {
     setTargetBV(newTargetBV);
-    setIsDirty(true);
+    // Use smart dirty detection - only mark dirty if data actually changed
+    const dirty = isLanceDirty(lance, newTargetBV, savedLanceSnapshot);
+    setIsDirty(dirty);
   };
 
   const handleLanceNameChange = (newName) => {
-    setLance(prevLance => ({ ...prevLance, name: newName }));
-    setIsDirty(true);
+    const updatedLance = { ...lance, name: newName };
+    setLance(updatedLance);
+    // Use smart dirty detection - only mark dirty if data actually changed
+    const dirty = isLanceDirty(updatedLance, targetBV, savedLanceSnapshot);
+    setIsDirty(dirty);
   };
 
   const handleClearLance = () => {

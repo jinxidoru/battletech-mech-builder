@@ -135,18 +135,12 @@ function LanceEditor({ lance, mechs, onLanceUpdate, onMechSelect, targetBV, onTa
       if (lanceName !== null && lanceName.trim() !== '') {
         // Update the name first
         onLanceNameChange(lanceName.trim());
-        // Then save with the new name
-        const success = onSaveLance(lanceName.trim());
-        if (success) {
-          alert('Lance saved successfully!');
-        }
+        // Then save with the new name - save quietly without alert
+        onSaveLance(lanceName.trim());
       }
     } else {
-      // Save with current name
-      const success = onSaveLance(currentName);
-      if (success) {
-        alert('Lance saved successfully!');
-      }
+      // Save with current name - save quietly without alert
+      onSaveLance(currentName);
     }
   };
 
