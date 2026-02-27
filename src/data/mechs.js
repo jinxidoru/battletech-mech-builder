@@ -55,7 +55,8 @@ export const mechs = [
 
     weapons: [
       [1, 'RA', weapons.medium_laser],
-      [2, 'LA', weapons.small_laser],
+      [1, 'RA', weapons.small_laser],
+      [1, 'LA', weapons.small_laser],
       [1, 'LA', weapons.medium_laser]
     ],
 
@@ -63,10 +64,10 @@ export const mechs = [
       head: ['LIFE_SUPPORT', 'SENSORS', 'COCKPIT', null, 'SENSORS', 'LIFE_SUPPORT'],
       leftArm: [
         ['SHOULDER', 'UPPER_ARM_ACTUATOR', 'LOWER_ARM_ACTUATOR', 'Small Laser'],
-        []
+        ['SHOULDER', 'UPPER_ARM_ACTUATOR', 'LOWER_ARM_ACTUATOR', 'Medium Laser']
       ],
       rightArm: [
-        ['SHOULDER', 'UPPER_ARM_ACTUATOR', 'LOWER_ARM_ACTUATOR', 'Medium Laser'],
+        ['SHOULDER', 'UPPER_ARM_ACTUATOR', 'LOWER_ARM_ACTUATOR', 'Small Laser'],
         ['SHOULDER', 'UPPER_ARM_ACTUATOR', 'LOWER_ARM_ACTUATOR', 'Medium Laser']
       ],
       leftTorso: [[], []],
