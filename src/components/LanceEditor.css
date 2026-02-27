@@ -1,0 +1,305 @@
+.lance-editor {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background: #1a1a1a;
+}
+
+.lance-header {
+  padding: 20px;
+  background: #222;
+  border-bottom: 2px solid #333;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.lance-title h2 {
+  margin: 0 0 12px 0;
+  color: #fff;
+  font-size: 1.5em;
+}
+
+.lance-stats {
+  display: flex;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+
+.lance-stat {
+  display: flex;
+  gap: 8px;
+  align-items: baseline;
+}
+
+.lance-stat .stat-label {
+  color: #888;
+  font-size: 0.9em;
+}
+
+.lance-stat .stat-value {
+  color: #fff;
+  font-weight: 600;
+  font-size: 1.1em;
+}
+
+.lance-stat .bv-value {
+  color: #00aaff;
+  font-size: 1.3em;
+}
+
+.auto-balance-section {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.target-bv-input {
+  width: 140px;
+  padding: 10px 12px;
+  background: #2a2a2a;
+  border: 1px solid #444;
+  border-radius: 4px;
+  color: #fff;
+  font-size: 0.95em;
+}
+
+.target-bv-input:focus {
+  outline: none;
+  border-color: #00aaff;
+}
+
+.auto-balance-btn {
+  padding: 10px 20px;
+  background: linear-gradient(135deg, #00aaff, #0088cc);
+  border: none;
+  border-radius: 4px;
+  color: #fff;
+  font-size: 0.95em;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+
+.auto-balance-btn:hover:not(:disabled) {
+  background: linear-gradient(135deg, #0088cc, #006699);
+  box-shadow: 0 4px 12px rgba(0, 170, 255, 0.3);
+}
+
+.auto-balance-btn:disabled {
+  background: #333;
+  color: #666;
+  cursor: not-allowed;
+}
+
+.lance-drop-zone {
+  flex: 1;
+  overflow-y: auto;
+  padding: 20px;
+}
+
+.lance-drop-zone.empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 3px dashed #444;
+  margin: 20px;
+  border-radius: 8px;
+  min-height: 300px;
+}
+
+.drop-placeholder {
+  text-align: center;
+  color: #666;
+}
+
+.drop-icon {
+  font-size: 4em;
+  margin-bottom: 16px;
+  opacity: 0.5;
+}
+
+.drop-placeholder p {
+  font-size: 1.1em;
+}
+
+.lance-mechs-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.lance-mech-item {
+  background: linear-gradient(145deg, #2a2a2a, #222);
+  border: 2px solid #444;
+  border-radius: 8px;
+  padding: 16px;
+  transition: all 0.2s;
+}
+
+.lance-mech-item.clickable {
+  cursor: pointer;
+}
+
+.lance-mech-item.clickable:hover {
+  border-color: #00aaff;
+  box-shadow: 0 4px 12px rgba(0, 170, 255, 0.3);
+  transform: translateY(-2px);
+}
+
+.lance-mech-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 12px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid #444;
+}
+
+.lance-mech-info h3 {
+  margin: 0;
+  color: #fff;
+  font-size: 1.2em;
+}
+
+.lance-mech-info .variant {
+  display: block;
+  color: #888;
+  font-size: 0.85em;
+  margin-top: 4px;
+}
+
+.remove-btn {
+  width: 32px;
+  height: 32px;
+  background: rgba(255, 100, 100, 0.2);
+  border: 1px solid #ff6464;
+  border-radius: 4px;
+  color: #ff6464;
+  font-size: 1.5em;
+  line-height: 1;
+  cursor: pointer;
+  transition: all 0.2s;
+  padding: 0;
+}
+
+.remove-btn:hover {
+  background: rgba(255, 100, 100, 0.4);
+  transform: scale(1.1);
+}
+
+.lance-mech-stats {
+  display: flex;
+  gap: 24px;
+  margin-bottom: 12px;
+  flex-wrap: wrap;
+}
+
+.stat-item {
+  display: flex;
+  gap: 6px;
+  font-size: 0.95em;
+}
+
+.stat-item .label {
+  color: #888;
+}
+
+.stat-item .value {
+  color: #fff;
+  font-weight: 600;
+}
+
+.stat-item.highlight .value {
+  color: #00aaff;
+  font-size: 1.1em;
+}
+
+.lance-mech-skills {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.skill-control {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255, 255, 255, 0.05);
+  padding: 8px 12px;
+  border-radius: 4px;
+}
+
+.skill-control label {
+  color: #aaa;
+  font-size: 0.9em;
+  min-width: 70px;
+}
+
+.skill-control input {
+  width: 50px;
+  padding: 6px 8px;
+  background: #333;
+  border: 1px solid #555;
+  border-radius: 4px;
+  color: #fff;
+  font-size: 0.95em;
+  text-align: center;
+}
+
+.skill-control input:focus {
+  outline: none;
+  border-color: #00aaff;
+}
+
+.skill-control input:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.lock-btn {
+  width: 36px;
+  height: 36px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid #555;
+  border-radius: 4px;
+  font-size: 1.2em;
+  cursor: pointer;
+  transition: all 0.2s;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.lock-btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: #777;
+}
+
+.lock-btn.locked {
+  background: rgba(0, 170, 255, 0.2);
+  border-color: #00aaff;
+}
+
+/* Scrollbar styling */
+.lance-drop-zone::-webkit-scrollbar {
+  width: 8px;
+}
+
+.lance-drop-zone::-webkit-scrollbar-track {
+  background: #1a1a1a;
+}
+
+.lance-drop-zone::-webkit-scrollbar-thumb {
+  background: #444;
+  border-radius: 4px;
+}
+
+.lance-drop-zone::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}

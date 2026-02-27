@@ -1,0 +1,243 @@
+.mech-preview-panel {
+  height: 100%;
+  background: #1a1a1a;
+  border-left: 2px solid #333;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.preview-empty {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: #666;
+  padding: 40px;
+  text-align: center;
+}
+
+.preview-icon {
+  font-size: 4em;
+  margin-bottom: 16px;
+  opacity: 0.5;
+}
+
+.preview-empty p {
+  font-size: 1.1em;
+}
+
+.preview-header {
+  padding: 20px;
+  background: #222;
+  border-bottom: 2px solid #333;
+}
+
+.preview-title h2 {
+  margin: 0 0 6px 0;
+  color: #fff;
+  font-size: 1.8em;
+  font-weight: 700;
+}
+
+.preview-variant {
+  display: block;
+  color: #aaa;
+  font-size: 1em;
+  margin-bottom: 12px;
+}
+
+.tonnage-class-badge {
+  display: inline-block;
+  padding: 6px 14px;
+  border-radius: 6px;
+  font-size: 0.9em;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.tonnage-class-badge.light {
+  background: rgba(74, 158, 255, 0.2);
+  color: #4a9eff;
+  border: 1px solid #4a9eff;
+}
+
+.tonnage-class-badge.medium {
+  background: rgba(255, 165, 0, 0.2);
+  color: #ffa500;
+  border: 1px solid #ffa500;
+}
+
+.tonnage-class-badge.heavy {
+  background: rgba(255, 68, 68, 0.2);
+  color: #ff4444;
+  border: 1px solid #ff4444;
+}
+
+.tonnage-class-badge.assault {
+  background: rgba(170, 0, 255, 0.2);
+  color: #aa00ff;
+  border: 1px solid #aa00ff;
+}
+
+.preview-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 20px;
+}
+
+.preview-section {
+  margin-bottom: 24px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #333;
+}
+
+.preview-section:last-child {
+  border-bottom: none;
+}
+
+.preview-section h3 {
+  margin: 0 0 12px 0;
+  color: #00aaff;
+  font-size: 1.1em;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-weight: 600;
+}
+
+.preview-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+}
+
+.preview-stat {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  background: rgba(255, 255, 255, 0.03);
+  padding: 12px;
+  border-radius: 6px;
+  border: 1px solid #333;
+}
+
+.preview-stat-label {
+  color: #888;
+  font-size: 0.85em;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.preview-stat-value {
+  color: #fff;
+  font-size: 1.2em;
+  font-weight: 600;
+}
+
+.preview-stat-value.highlight {
+  color: #00aaff;
+  font-size: 1.4em;
+}
+
+.weapons-preview-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.weapon-preview-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid #333;
+  border-radius: 4px;
+  transition: background 0.2s;
+}
+
+.weapon-preview-item:hover {
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.weapon-bullet {
+  color: #00aaff;
+  font-size: 1.2em;
+  font-weight: bold;
+}
+
+.weapon-name {
+  color: #ddd;
+  font-size: 0.95em;
+}
+
+.owned-preview {
+  padding: 12px;
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 6px;
+  border: 1px solid #333;
+}
+
+.owned-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.owned-icon {
+  font-size: 1.5em;
+  font-weight: bold;
+}
+
+.owned-info.has-mini .owned-icon {
+  color: #00c864;
+}
+
+.owned-info.no-mini .owned-icon {
+  color: #666;
+}
+
+.owned-text {
+  color: #ddd;
+  font-size: 0.95em;
+}
+
+.preview-footer {
+  margin-top: 20px;
+  padding-top: 20px;
+  border-top: 1px solid #333;
+}
+
+.preview-note {
+  padding: 12px;
+  background: rgba(0, 170, 255, 0.1);
+  border-left: 3px solid #00aaff;
+  border-radius: 4px;
+  font-size: 0.85em;
+  color: #aaa;
+  line-height: 1.5;
+}
+
+.preview-note strong {
+  color: #00aaff;
+}
+
+/* Scrollbar styling */
+.preview-content::-webkit-scrollbar {
+  width: 8px;
+}
+
+.preview-content::-webkit-scrollbar-track {
+  background: #1a1a1a;
+}
+
+.preview-content::-webkit-scrollbar-thumb {
+  background: #444;
+  border-radius: 4px;
+}
+
+.preview-content::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}

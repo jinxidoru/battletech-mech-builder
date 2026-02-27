@@ -5,9 +5,35 @@
  * movement: [walk, run, jump]
  * armor: [head, CT, CTr, LT, LTr, RT, RTr, LA, RA, LL, RL]
  * structure: [head, CT, LT, RT, LA, RA, LL, RL] (no rear locations)
- * criticals: head/legs are single arrays, arms/torsos are nested arrays [column1, column2]
+ *
+ * weapons: Array format [qty, location, weaponRef]
+ *   - qty: number of this weapon
+ *   - location: where weapon is mounted (RA, LA, RT, LT, CT, LL, RL)
+ *   - weaponRef: reference to weapon library defined below
+ *
+ * criticals: head/legs are single arrays, arms/torsos are nested arrays [column1-3, column4-6]
  *            trailing nulls should be removed, but internal nulls are preserved
+ *            IMPORTANT: columns 1-3 and 4-6 are completely separate and often different
+ *
+ * Damage Types:
+ *   'DE' = Direct Energy (lasers)
+ *   'M'  = Missiles (SRM, LRM)
+ *   'B'  = Ballistic (AC, Machine Guns)
+ *   'P'  = Physical (Flamers, etc.)
  */
+
+// Standard Weapons Library
+const weapons = {
+  small_laser: { name: 'Small Laser', heat: 1, damage: 3, damageType: 'DE', range: [0, 1, 2, 3] },
+  medium_laser: { name: 'Medium Laser', heat: 3, damage: 5, damageType: 'DE', range: [0, 3, 6, 9] },
+  large_laser: { name: 'Large Laser', heat: 8, damage: 8, damageType: 'DE', range: [0, 5, 10, 15] },
+  machine_gun: { name: 'Machine Gun', heat: 0, damage: 2, damageType: 'B', range: [0, 1, 2, 3] },
+  flamer: { name: 'Flamer', heat: 3, damage: 2, damageType: 'P', range: [0, 1, 2, 3] },
+  srm6: { name: 'SRM 6', heat: 4, damage: 2, damageType: 'M', range: [0, 3, 6, 9] },
+  lrm20: { name: 'LRM 20', heat: 6, damage: 1, damageType: 'M', range: [6, 7, 14, 21] },
+  ppc: { name: 'PPC', heat: 10, damage: 10, damageType: 'DE', range: [3, 6, 12, 18] },
+  ac5: { name: 'AC/5', heat: 1, damage: 5, damageType: 'B', range: [0, 6, 12, 18] }
+};
 
 export const mechs = [
   {
@@ -28,53 +54,16 @@ export const mechs = [
     structure: [3, 6, 4, 4, 2, 2, 4, 4],
 
     weapons: [
-      {
-        name: 'Medium Laser',
-        location: 'RA',
-        heat: 3,
-        damage: 5,
-        minRange: 0,
-        shortRange: 3,
-        mediumRange: 6,
-        longRange: 9
-      },
-      {
-        name: 'Small Laser',
-        location: 'LA',
-        heat: 1,
-        damage: 3,
-        minRange: 0,
-        shortRange: 1,
-        mediumRange: 2,
-        longRange: 3
-      },
-      {
-        name: 'Small Laser',
-        location: 'LA',
-        heat: 1,
-        damage: 3,
-        minRange: 0,
-        shortRange: 1,
-        mediumRange: 2,
-        longRange: 3
-      },
-      {
-        name: 'Medium Laser',
-        location: 'LA',
-        heat: 3,
-        damage: 5,
-        minRange: 0,
-        shortRange: 3,
-        mediumRange: 6,
-        longRange: 9
-      }
+      [1, 'RA', weapons.medium_laser],
+      [2, 'LA', weapons.small_laser],
+      [1, 'LA', weapons.medium_laser]
     ],
 
     criticals: {
       head: ['LIFE_SUPPORT', 'SENSORS', 'COCKPIT', null, 'SENSORS', 'LIFE_SUPPORT'],
       leftArm: [
         ['SHOULDER', 'UPPER_ARM_ACTUATOR', 'LOWER_ARM_ACTUATOR', 'Small Laser'],
-        ['SHOULDER', 'UPPER_ARM_ACTUATOR', 'LOWER_ARM_ACTUATOR', 'Small Laser']
+        []
       ],
       rightArm: [
         ['SHOULDER', 'UPPER_ARM_ACTUATOR', 'LOWER_ARM_ACTUATOR', 'Medium Laser'],
@@ -115,66 +104,11 @@ export const mechs = [
     structure: [3, 11, 7, 7, 5, 5, 8, 8],
 
     weapons: [
-      {
-        name: 'Machine Gun',
-        location: 'RT',
-        heat: 0,
-        damage: 2,
-        minRange: 0,
-        shortRange: 1,
-        mediumRange: 2,
-        longRange: 3
-      },
-      {
-        name: 'Machine Gun',
-        location: 'RT',
-        heat: 0,
-        damage: 2,
-        minRange: 0,
-        shortRange: 1,
-        mediumRange: 2,
-        longRange: 3
-      },
-      {
-        name: 'Medium Laser',
-        location: 'RA',
-        heat: 3,
-        damage: 5,
-        minRange: 0,
-        shortRange: 3,
-        mediumRange: 6,
-        longRange: 9
-      },
-      {
-        name: 'Small Laser',
-        location: 'RA',
-        heat: 1,
-        damage: 3,
-        minRange: 0,
-        shortRange: 1,
-        mediumRange: 2,
-        longRange: 3
-      },
-      {
-        name: 'Small Laser',
-        location: 'LA',
-        heat: 1,
-        damage: 3,
-        minRange: 0,
-        shortRange: 1,
-        mediumRange: 2,
-        longRange: 3
-      },
-      {
-        name: 'Medium Laser',
-        location: 'LA',
-        heat: 3,
-        damage: 5,
-        minRange: 0,
-        shortRange: 3,
-        mediumRange: 6,
-        longRange: 9
-      }
+      [2, 'RT', weapons.machine_gun],
+      [1, 'RA', weapons.medium_laser],
+      [1, 'RA', weapons.small_laser],
+      [1, 'LA', weapons.small_laser],
+      [1, 'LA', weapons.medium_laser]
     ],
 
     ammo: [
@@ -231,80 +165,11 @@ export const mechs = [
     structure: [3, 14, 9, 9, 6, 6, 9, 9],
 
     weapons: [
-      {
-        name: 'Medium Laser',
-        location: 'RT',
-        heat: 3,
-        damage: 5,
-        minRange: 0,
-        shortRange: 3,
-        mediumRange: 6,
-        longRange: 9
-      },
-      {
-        name: 'Medium Laser',
-        location: 'LT',
-        heat: 3,
-        damage: 5,
-        minRange: 0,
-        shortRange: 3,
-        mediumRange: 6,
-        longRange: 9
-      },
-      {
-        name: 'Flamer',
-        location: 'RA',
-        heat: 3,
-        damage: 2,
-        minRange: 0,
-        shortRange: 1,
-        mediumRange: 2,
-        longRange: 3,
-        special: '+2 Heat to target'
-      },
-      {
-        name: 'Flamer',
-        location: 'RA',
-        heat: 3,
-        damage: 2,
-        minRange: 0,
-        shortRange: 1,
-        mediumRange: 2,
-        longRange: 3,
-        special: '+2 Heat to target'
-      },
-      {
-        name: 'Flamer',
-        location: 'LA',
-        heat: 3,
-        damage: 2,
-        minRange: 0,
-        shortRange: 1,
-        mediumRange: 2,
-        longRange: 3,
-        special: '+2 Heat to target'
-      },
-      {
-        name: 'Flamer',
-        location: 'LA',
-        heat: 3,
-        damage: 2,
-        minRange: 0,
-        shortRange: 1,
-        mediumRange: 2,
-        longRange: 3,
-        special: '+2 Heat to target'
-      },
-      {
-        name: 'Medium Laser',
-        location: 'LA',
-        heat: 3,
-        damage: 5,
-        minRange: 0,
-        shortRange: 3,
-        mediumRange: 6,
-        longRange: 9
-      }
+      [1, 'RT', weapons.medium_laser],
+      [1, 'LT', weapons.medium_laser],
+      [2, 'RA', weapons.flamer],
+      [2, 'LA', weapons.flamer],
+      [1, 'LA', weapons.medium_laser]
     ],
 
     criticals: {
@@ -357,56 +222,11 @@ export const mechs = [
     structure: [3, 21, 12, 12, 9, 9, 12, 12],
 
     weapons: [
-      {
-        name: 'SRM 6',
-        location: 'RT',
-        heat: 4,
-        damage: '2/Msl',
-        minRange: 0,
-        shortRange: 3,
-        mediumRange: 6,
-        longRange: 9
-      },
-      {
-        name: 'Medium Laser',
-        location: 'RT',
-        heat: 3,
-        damage: 5,
-        minRange: 0,
-        shortRange: 3,
-        mediumRange: 6,
-        longRange: 9
-      },
-      {
-        name: 'Medium Laser',
-        location: 'LT',
-        heat: 3,
-        damage: 5,
-        minRange: 0,
-        shortRange: 3,
-        mediumRange: 6,
-        longRange: 9
-      },
-      {
-        name: 'Medium Laser',
-        location: 'RA',
-        heat: 3,
-        damage: 5,
-        minRange: 0,
-        shortRange: 3,
-        mediumRange: 6,
-        longRange: 9
-      },
-      {
-        name: 'PPC',
-        location: 'RA',
-        heat: 10,
-        damage: 10,
-        minRange: 3,
-        shortRange: 6,
-        mediumRange: 12,
-        longRange: 18
-      }
+      [1, 'RT', weapons.srm6],
+      [1, 'RT', weapons.medium_laser],
+      [1, 'LT', weapons.medium_laser],
+      [1, 'RA', weapons.medium_laser],
+      [1, 'RA', weapons.ppc]
     ],
 
     ammo: [
@@ -416,8 +236,8 @@ export const mechs = [
     criticals: {
       head: ['LIFE_SUPPORT', 'SENSORS', 'COCKPIT', 'SENSORS', 'LIFE_SUPPORT'],
       leftArm: [
-        ['SHOULDER', 'UPPER_ARM_ACTUATOR', 'LOWER_ARM_ACTUATOR', 'PPC'],
-        ['SHOULDER', 'UPPER_ARM_ACTUATOR', 'LOWER_ARM_ACTUATOR', 'PPC']
+        ['SHOULDER', 'UPPER_ARM_ACTUATOR', 'LOWER_ARM_ACTUATOR', 'Large Laser'],
+        ['SHOULDER', 'UPPER_ARM_ACTUATOR', 'LOWER_ARM_ACTUATOR', 'Endo Steel']
       ],
       rightArm: [
         ['SHOULDER', 'UPPER_ARM_ACTUATOR', 'LOWER_ARM_ACTUATOR', 'Medium Laser'],
@@ -463,56 +283,11 @@ export const mechs = [
     structure: [3, 31, 15, 15, 12, 12, 15, 15],
 
     weapons: [
-      {
-        name: 'SRM 6',
-        location: 'CT',
-        heat: 4,
-        damage: '2/Msl',
-        minRange: 0,
-        shortRange: 3,
-        mediumRange: 6,
-        longRange: 9
-      },
-      {
-        name: 'LRM 20',
-        location: 'CT',
-        heat: 6,
-        damage: '1/Msl',
-        minRange: 6,
-        shortRange: 7,
-        mediumRange: 14,
-        longRange: 21
-      },
-      {
-        name: 'AC/5',
-        location: 'LT',
-        heat: 1,
-        damage: 5,
-        minRange: 0,
-        shortRange: 6,
-        mediumRange: 12,
-        longRange: 18
-      },
-      {
-        name: 'Medium Laser',
-        location: 'RA',
-        heat: 3,
-        damage: 5,
-        minRange: 0,
-        shortRange: 3,
-        mediumRange: 6,
-        longRange: 9
-      },
-      {
-        name: 'AC/5',
-        location: 'RA',
-        heat: 1,
-        damage: 5,
-        minRange: 0,
-        shortRange: 6,
-        mediumRange: 12,
-        longRange: 18
-      }
+      [1, 'CT', weapons.srm6],
+      [1, 'CT', weapons.lrm20],
+      [1, 'LT', weapons.ac5],
+      [1, 'RA', weapons.medium_laser],
+      [1, 'RA', weapons.ac5]
     ],
 
     ammo: [

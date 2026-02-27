@@ -6,7 +6,21 @@
       "Bash(git init:*)",
       "Bash(npm create:*)",
       "Bash(npm install:*)",
-      "Bash(git add:*)"
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(git remote add:*)",
+      "Bash(git branch:*)",
+      "Bash(git push:*)",
+      "Bash(git config:*)",
+      "Bash(npm run dev:*)",
+      "Bash(tree:*)",
+      "Bash(curl:*)",
+      "Bash(node -c:*)",
+      "Bash(pdftotext:*)",
+      "Bash(pdfimages:*)",
+      "Bash(pdfseparate:*)",
+      "Bash(ls:*)",
+      "Bash(pdftoppm:*)"
     ]
   }
 }

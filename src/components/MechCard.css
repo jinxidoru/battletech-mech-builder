@@ -1,0 +1,270 @@
+.mech-card {
+  background: linear-gradient(145deg, #2a2a2a, #1f1f1f);
+  border: 2px solid #444;
+  border-radius: 8px;
+  padding: 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  user-select: none;
+}
+
+/* Compact view */
+.mech-card.compact {
+  padding: 10px 12px;
+  min-height: auto;
+}
+
+.mech-card-compact-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+}
+
+.compact-name h3 {
+  margin: 0;
+  font-size: 1.1em;
+  color: #fff;
+  font-weight: 600;
+}
+
+.compact-name .variant {
+  display: inline;
+  font-size: 0.85em;
+  color: #aaa;
+  margin-left: 6px;
+}
+
+.compact-stats {
+  display: flex;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.mech-card:hover {
+  border-color: #666;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+  transform: translateY(-2px);
+}
+
+.mech-card.selected {
+  border-color: #00aaff;
+  box-shadow: 0 0 12px rgba(0, 170, 255, 0.4);
+}
+
+/* Tonnage-based color coding */
+.mech-card.light { border-left: 4px solid #4a9eff; }
+.mech-card.medium { border-left: 4px solid #ffa500; }
+.mech-card.heavy { border-left: 4px solid #ff4444; }
+.mech-card.assault { border-left: 4px solid #aa00ff; }
+
+.mech-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 8px;
+  padding-bottom: 6px;
+  border-bottom: 1px solid #444;
+}
+
+.mech-card-title h3 {
+  margin: 0;
+  font-size: 1.3em;
+  color: #fff;
+  font-weight: 600;
+}
+
+.variant {
+  display: block;
+  font-size: 0.85em;
+  color: #aaa;
+  margin-top: 2px;
+}
+
+.mech-card-badges {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  align-items: flex-end;
+}
+
+.tonnage-badge,
+.bv-badge {
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 0.85em;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.tonnage-badge {
+  background: rgba(70, 70, 70, 0.6);
+  color: #fff;
+}
+
+.tonnage-badge.light { background: rgba(74, 158, 255, 0.3); color: #4a9eff; }
+.tonnage-badge.medium { background: rgba(255, 165, 0, 0.3); color: #ffa500; }
+.tonnage-badge.heavy { background: rgba(255, 68, 68, 0.3); color: #ff4444; }
+.tonnage-badge.assault { background: rgba(170, 0, 255, 0.3); color: #aa00ff; }
+
+.bv-badge {
+  background: rgba(0, 170, 255, 0.2);
+  color: #00aaff;
+}
+
+.mech-card-body {
+  margin-bottom: 8px;
+}
+
+.mech-stats-compact {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 6px;
+  flex-wrap: wrap;
+}
+
+.mech-stats {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 8px;
+  flex-wrap: wrap;
+}
+
+.stat {
+  display: flex;
+  gap: 4px;
+  font-size: 0.9em;
+}
+
+.stat-label {
+  color: #888;
+}
+
+.stat-value {
+  color: #fff;
+  font-weight: 600;
+}
+
+.mech-role {
+  margin: 0 0 6px 0;
+}
+
+.role-badge {
+  display: inline-block;
+  padding: 3px 8px;
+  background: rgba(0, 200, 100, 0.2);
+  color: #00c864;
+  border-radius: 10px;
+  font-size: 0.8em;
+  font-weight: 500;
+}
+
+.mech-weapons {
+  margin-top: 12px;
+}
+
+.mech-weapons-compact {
+  margin-top: 6px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.mech-weapons-compact .weapons-label {
+  font-size: 0.8em;
+  color: #888;
+  margin: 0;
+  flex-shrink: 0;
+}
+
+.mech-weapons-compact .weapons-list {
+  display: flex;
+  gap: 4px;
+  flex-wrap: wrap;
+}
+
+.weapons-label {
+  font-size: 0.85em;
+  color: #888;
+  margin-bottom: 6px;
+}
+
+.weapons-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.weapon-tag {
+  display: inline-block;
+  padding: 2px 6px;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid #444;
+  border-radius: 3px;
+  font-size: 0.75em;
+  color: #ccc;
+}
+
+.weapon-tag.more {
+  background: rgba(0, 170, 255, 0.2);
+  color: #00aaff;
+  border-color: #00aaff;
+}
+
+.mech-card-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 6px;
+  border-top: 1px solid #444;
+  margin-top: 6px;
+}
+
+.owned-section {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 8px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.owned-section:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.owned-label {
+  font-size: 0.85em;
+  color: #888;
+}
+
+.owned-count {
+  font-weight: 600;
+  color: #666;
+  min-width: 20px;
+  text-align: center;
+}
+
+.owned-count.has-mini {
+  color: #00c864;
+}
+
+.owned-input {
+  width: 50px;
+  padding: 2px 6px;
+  background: #333;
+  border: 1px solid #555;
+  border-radius: 4px;
+  color: #fff;
+  font-size: 0.9em;
+}
+
+.drag-hint {
+  font-size: 0.75em;
+  color: #666;
+  font-style: italic;
+}
