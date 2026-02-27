@@ -216,9 +216,9 @@
   justify-content: space-between;
   align-items: flex-start;
   gap: 12px;
-  margin-bottom: 12px;
-  padding-bottom: 12px;
-  border-bottom: 1px solid #444;
+  margin-bottom: 8px;
+  padding-bottom: 0;
+  border-bottom: none;
 }
 
 .lance-mech-compact-header {
@@ -232,7 +232,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  gap: 12px;
+  gap: 8px;
 }
 
 .compact-badges {
@@ -256,17 +256,21 @@
 
 .lance-mech-badges {
   display: flex;
-  flex-direction: column;
-  gap: 4px;
-  align-items: flex-end;
+  flex-direction: row;
+  gap: 6px;
+  align-items: center;
   flex-shrink: 0;
+  margin-bottom: 8px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid #444;
 }
 
 .lance-mech-badges .tonnage-badge,
 .lance-mech-badges .bv-badge,
 .lance-mech-badges .role-badge,
 .compact-badges .tonnage-badge,
-.compact-badges .bv-badge {
+.compact-badges .bv-badge,
+.compact-badges .role-badge {
   padding: 4px 8px;
   border-radius: 4px;
   font-size: 0.75em;
@@ -291,7 +295,8 @@
   color: #00aaff;
 }
 
-.lance-mech-badges .role-badge {
+.lance-mech-badges .role-badge,
+.compact-badges .role-badge {
   background: rgba(0, 200, 100, 0.2);
   color: #00c864;
 }
