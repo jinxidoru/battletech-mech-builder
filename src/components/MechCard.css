@@ -243,15 +243,22 @@
   color: #888;
 }
 
-.owned-count {
+.owned-status {
   font-weight: 600;
-  color: #666;
-  min-width: 20px;
-  text-align: center;
+  font-size: 0.85em;
+  padding: 2px 6px;
+  border-radius: 3px;
+  transition: all 0.2s;
 }
 
-.owned-count.has-mini {
+.owned-status.owned {
   color: #00c864;
+  background: rgba(0, 200, 100, 0.15);
+}
+
+.owned-status.not-owned {
+  color: #888;
+  background: rgba(255, 255, 255, 0.05);
 }
 
 .owned-input {

@@ -134,7 +134,6 @@ function MechCard({ mech, onSelect, isSelected, onOwnedCountChange, compactView 
             </div>
           </div>
           <div className="owned-section-compact" onClick={handleOwnedClick}>
-            <span className="owned-label">Owned:</span>
             {isEditingOwned ? (
               <input
                 type="number"
@@ -144,12 +143,17 @@ function MechCard({ mech, onSelect, isSelected, onOwnedCountChange, compactView 
                 onBlur={handleOwnedBlur}
                 onFocus={handleOwnedFocus}
                 onClick={(e) => e.stopPropagation()}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter') {
+                    handleOwnedBlur();
+                  }
+                }}
                 autoFocus
                 className="owned-input"
               />
             ) : (
-              <span className={`owned-count ${mech.ownedCount > 0 ? 'has-mini' : ''}`}>
-                {mech.ownedCount}
+              <span className={`owned-status ${mech.ownedCount > 0 ? 'owned' : 'not-owned'}`}>
+                {mech.ownedCount > 0 ? 'Owned' : 'Not Owned'}
               </span>
             )}
           </div>

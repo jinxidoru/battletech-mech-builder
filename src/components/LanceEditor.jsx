@@ -361,13 +361,6 @@ function LanceEditor({ lance, mechs, onLanceUpdate, onMechSelect, targetBV, onTa
                         )}
                       </div>
                     </div>
-
-                    {mech.ownedCount > 0 && (
-                      <div className="owned-indicator">
-                        <span className="owned-icon">✓</span>
-                        <span className="owned-text">Owned: {mech.ownedCount}</span>
-                      </div>
-                    )}
                   </div>
 
                   <div className="lance-mech-footer">
