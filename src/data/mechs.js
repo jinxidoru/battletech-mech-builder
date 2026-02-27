@@ -87,6 +87,65 @@ export const mechs = [
   },
 
   {
+    id: 'lct-1v',
+    name: 'Locust',
+    variant: 'LCT-1V',
+    source: {
+      file: 'BattleTech_Record_Sheets_Succession_Wars.pdf',
+      page: 13
+    },
+    tonnage: 20,
+    bv: 432,
+    role: 'Scout',
+    techBase: 'Inner Sphere',
+    rulesLevel: 'Introductory',
+    movement: [8, 12, 0],
+    armor: [8, 10, 2, 8, 2, 8, 2, 4, 4, 8, 8],
+    structure: [3, 6, 5, 5, 3, 3, 4, 4],
+
+    weapons: [
+      [1, 'CT', weapons.medium_laser],
+      [1, 'RA', weapons.machine_gun],
+      [1, 'LA', weapons.machine_gun]
+    ],
+
+    ammo: [
+      { type: 'Machine Gun', rounds: 200 }
+    ],
+
+    criticals: {
+      head: ['LIFE_SUPPORT', 'SENSORS', 'COCKPIT', null, 'SENSORS', 'LIFE_SUPPORT'],
+      leftArm: [
+        ['SHOULDER', 'UPPER_ARM_ACTUATOR', 'Machine Gun'],
+        []
+      ],
+      rightArm: [
+        ['SHOULDER', 'UPPER_ARM_ACTUATOR', 'Machine Gun'],
+        []
+      ],
+      leftTorso: [
+        ['HEAT_SINK', 'HEAT_SINK', 'HEAT_SINK'],
+        ['Machine Gun']
+      ],
+      rightTorso: [
+        ['HEAT_SINK', 'HEAT_SINK', 'Machine Gun'],
+        ['Ammo (Machine Gun) 200']
+      ],
+      centerTorso: [
+        ['FUSION_ENGINE', 'FUSION_ENGINE', 'FUSION_ENGINE', 'GYRO', 'GYRO', 'GYRO'],
+        ['FUSION_ENGINE', 'FUSION_ENGINE', 'FUSION_ENGINE', 'GYRO', 'GYRO', 'GYRO']
+      ],
+      leftLeg: ['HIP', 'UPPER_LEG_ACTUATOR', 'LOWER_LEG_ACTUATOR', 'FOOT_ACTUATOR', 'HEAT_SINK', 'HEAT_SINK'],
+      rightLeg: ['HIP', 'UPPER_LEG_ACTUATOR', 'LOWER_LEG_ACTUATOR', 'FOOT_ACTUATOR', 'HEAT_SINK', 'HEAT_SINK']
+    },
+
+    heat: {
+      heatSinks: 10,
+      heatSinkType: 'Single'
+    }
+  },
+
+  {
     id: 'fs9-m',
     name: 'Firestarter',
     variant: 'FS9-M',
