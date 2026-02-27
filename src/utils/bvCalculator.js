@@ -45,6 +45,7 @@ export function calculateLanceBV(lanceMechs) {
 /**
  * Find the best skill combination to reach a target BV
  * Uses the standard skill progression where skills increase together
+ * Prefers staying at or below target, only exceeding if necessary
  * @param {number} baseBV - Base BV of the mech
  * @param {number} targetBV - Desired total BV for the lance
  * @param {number} currentTotalBV - Current total BV of other mechs
@@ -52,8 +53,10 @@ export function calculateLanceBV(lanceMechs) {
  */
 export function findBestSkillsForTarget(baseBV, targetBV, currentTotalBV) {
   const needed = targetBV - currentTotalBV;
-  let bestDiff = Infinity;
-  let bestSkills = { gunnery: 4, piloting: 5 };
+  let bestAtOrUnder = null;
+  let bestOver = null;
+  let bestAtOrUnderDiff = Infinity;
+  let bestOverDiff = Infinity;
 
   // Standard skill progression matrix (gunnery typically 1 better than piloting)
   const skillCombos = [
@@ -67,11 +70,21 @@ export function findBestSkillsForTarget(baseBV, targetBV, currentTotalBV) {
     const adjustedBV = calculateAdjustedBV(baseBV, g, p);
     const diff = Math.abs(needed - adjustedBV);
 
-    if (diff < bestDiff) {
-      bestDiff = diff;
-      bestSkills = { gunnery: g, piloting: p, adjustedBV };
+    if (adjustedBV <= needed) {
+      // At or under target - prefer closest to target
+      if (diff < bestAtOrUnderDiff) {
+        bestAtOrUnderDiff = diff;
+        bestAtOrUnder = { gunnery: g, piloting: p, adjustedBV };
+      }
+    } else {
+      // Over target - only use if no at-or-under option exists
+      if (diff < bestOverDiff) {
+        bestOverDiff = diff;
+        bestOver = { gunnery: g, piloting: p, adjustedBV };
+      }
     }
   }
 
-  return bestSkills;
+  // Prefer at-or-under target, only go over if no at-or-under option exists
+  return bestAtOrUnder || bestOver || { gunnery: 4, piloting: 5, adjustedBV: calculateAdjustedBV(baseBV, 4, 5) };
 }
