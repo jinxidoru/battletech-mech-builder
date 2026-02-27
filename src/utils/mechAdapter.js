@@ -6,14 +6,20 @@
  * @returns {Object} Simplified mech for UI
  */
 export function adaptMechForUI(detailedMech) {
-  // Calculate total armor
-  const totalArmor = detailedMech.armor
-    ? Object.values(detailedMech.armor).reduce((sum, val) => sum + val, 0)
-    : 0;
+  // Calculate total armor from array format: [head, CT, CTr, LT, LTr, RT, RTr, LA, RA, LL, RL]
+  const totalArmor = Array.isArray(detailedMech.armor)
+    ? detailedMech.armor.reduce((sum, val) => sum + val, 0)
+    : (detailedMech.armor && typeof detailedMech.armor === 'object'
+        ? Object.values(detailedMech.armor).reduce((sum, val) => sum + val, 0)
+        : 0);
 
-  // Convert weapons array to simple string array
+  // Convert weapons array from [qty, location, weaponRef] format
+  // weaponRef is an object with name, heat, damage, etc.
   const weaponsList = detailedMech.weapons
-    ? detailedMech.weapons.map(w => w.name)
+    ? detailedMech.weapons.flatMap(([qty, location, weaponRef]) => {
+        // Create array with qty instances of the weapon name
+        return Array(qty).fill(weaponRef.name);
+      })
     : [];
 
   // Group duplicate weapons
@@ -26,6 +32,18 @@ export function adaptMechForUI(detailedMech) {
     return count > 1 ? `${count}x ${weapon}` : weapon;
   });
 
+  // Extract movement from array format: [walk, run, jump]
+  let walkSpeed = 0;
+  let jumpSpeed = 0;
+
+  if (Array.isArray(detailedMech.movement)) {
+    walkSpeed = detailedMech.movement[0] || 0;
+    jumpSpeed = detailedMech.movement[2] || 0;
+  } else if (detailedMech.movement && typeof detailedMech.movement === 'object') {
+    walkSpeed = detailedMech.movement.walk || 0;
+    jumpSpeed = detailedMech.movement.jump || 0;
+  }
+
   return {
     id: detailedMech.id,
     name: detailedMech.name,
@@ -35,8 +53,8 @@ export function adaptMechForUI(detailedMech) {
     weapons: weaponSummary,
     role: detailedMech.role || 'Unknown',
     armor: totalArmor,
-    speed: detailedMech.movement?.walk || 0,
-    jumpJets: detailedMech.movement?.jump || 0,
+    speed: walkSpeed,
+    jumpJets: jumpSpeed,
     ownedCount: 0 // Default to 0, will be loaded from storage
   };
 }

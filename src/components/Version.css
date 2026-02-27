@@ -1,0 +1,19 @@
+.version-info {
+  position: fixed;
+  bottom: 8px;
+  right: 12px;
+  font-size: 0.75rem;
+  color: #666;
+  font-family: 'Courier New', monospace;
+  z-index: 1000;
+  pointer-events: none;
+  user-select: none;
+}
+
+.version-label {
+  color: #555;
+}
+
+.version-info:hover {
+  color: #888;
+}

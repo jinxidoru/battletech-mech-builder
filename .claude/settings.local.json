@@ -20,7 +20,16 @@
       "Bash(pdfimages:*)",
       "Bash(pdfseparate:*)",
       "Bash(ls:*)",
-      "Bash(pdftoppm:*)"
+      "Bash(pdftoppm:*)",
+      "WebFetch(domain:)",
+      "Bash(git -C /Users/jinxidoru/misc/battletech-mechs remote -v)",
+      "Bash(npm run deploy:*)",
+      "Bash(git fetch:*)",
+      "Bash(gh repo view:*)",
+      "Bash(gh api:*)",
+      "Bash(gh auth:*)",
+      "Bash(gh repo list:*)",
+      "Bash(node -e:*)"
     ]
   }
 }

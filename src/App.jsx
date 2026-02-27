@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import MechSelectionView from './components/MechSelectionView';
 import LanceEditor from './components/LanceEditor';
 import MechPreviewPanel from './components/MechPreviewPanel';
+import Version from './components/Version';
 import detailedMechsData from './data/mechs';
 import { adaptMechsForUI } from './utils/mechAdapter';
 import './App.css';
@@ -108,6 +109,8 @@ function App() {
           <MechPreviewPanel mech={selectedMech} />
         </div>
       </div>
+
+      <Version />
     </div>
   );
 }
