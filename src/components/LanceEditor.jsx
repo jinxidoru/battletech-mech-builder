@@ -125,6 +125,12 @@ function LanceEditor({ lance, mechs, onLanceUpdate, onMechSelect }) {
     return sum + (mech?.tonnage || 0);
   }, 0);
 
+  // Check for warnings
+  const targetBVNum = parseInt(targetBV);
+  const showBVWarning = !isNaN(targetBVNum) && targetBVNum > 0 && totalBV > targetBVNum;
+  const mechCount = lance.mechs.length;
+  const showMechCountWarning = mechCount > 0 && mechCount !== 4 && mechCount !== 5;
+
   return (
     <div className="lance-editor">
       <div className="lance-header">
@@ -134,6 +140,16 @@ function LanceEditor({ lance, mechs, onLanceUpdate, onMechSelect }) {
             <div className="lance-stat">
               <span className="stat-label">Total BV:</span>
               <span className="stat-value bv-value">{totalBV}</span>
+              {showBVWarning && (
+                <span
+                  className="warning-indicator"
+                  title={`Total BV (${totalBV}) exceeds target BV (${targetBVNum})`}
+                >
+                  <svg viewBox="0 0 24 24" width="18" height="18">
+                    <path fill="currentColor" d="M12 2L1 21h22L12 2zm0 3.99L19.53 19H4.47L12 5.99zM11 16v2h2v-2h-2zm0-6v4h2v-4h-2z"/>
+                  </svg>
+                </span>
+              )}
             </div>
             <div className="lance-stat">
               <span className="stat-label">Total Tonnage:</span>
@@ -142,6 +158,16 @@ function LanceEditor({ lance, mechs, onLanceUpdate, onMechSelect }) {
             <div className="lance-stat">
               <span className="stat-label">Mechs:</span>
               <span className="stat-value">{lance.mechs.length}</span>
+              {showMechCountWarning && (
+                <span
+                  className="warning-indicator"
+                  title={`Mech count (${mechCount}) is non-standard. Standard sizes: 4 (Lance) or 5 (Star)`}
+                >
+                  <svg viewBox="0 0 24 24" width="18" height="18">
+                    <path fill="currentColor" d="M12 2L1 21h22L12 2zm0 3.99L19.53 19H4.47L12 5.99zM11 16v2h2v-2h-2zm0-6v4h2v-4h-2z"/>
+                  </svg>
+                </span>
+              )}
             </div>
           </div>
         </div>

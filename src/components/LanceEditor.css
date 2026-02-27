@@ -32,6 +32,7 @@
   display: flex;
   gap: 8px;
   align-items: baseline;
+  position: relative;
 }
 
 .lance-stat .stat-label {
@@ -48,6 +49,25 @@
 .lance-stat .bv-value {
   color: #00aaff;
   font-size: 1.3em;
+}
+
+.warning-indicator {
+  display: inline-flex;
+  align-items: center;
+  margin-left: 4px;
+  color: #ffb84d;
+  cursor: help;
+  transition: all 0.2s;
+}
+
+.warning-indicator:hover {
+  color: #ff9900;
+  transform: scale(1.1);
+}
+
+.warning-indicator svg {
+  display: block;
+  filter: drop-shadow(0 0 2px rgba(255, 184, 77, 0.5));
 }
 
 .auto-balance-section {
