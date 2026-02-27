@@ -27,7 +27,7 @@ const weapons = {
   small_laser: { name: 'Small Laser', heat: 1, damage: 3, damageType: 'DE', range: [0, 1, 2, 3] },
   medium_laser: { name: 'Medium Laser', heat: 3, damage: 5, damageType: 'DE', range: [0, 3, 6, 9] },
   large_laser: { name: 'Large Laser', heat: 8, damage: 8, damageType: 'DE', range: [0, 5, 10, 15] },
-  machine_gun: { name: 'Machine Gun', heat: 0, damage: 2, damageType: 'B', range: [0, 1, 2, 3] },
+  machine_gun: { name: 'Machine Gun', heat: 0, damage: 2, damageType: 'DB,AI', range: [0, 1, 2, 3] },
   flamer: { name: 'Flamer', heat: 3, damage: 2, damageType: 'P', range: [0, 1, 2, 3] },
   srm6: { name: 'SRM 6', heat: 4, damage: 2, damageType: 'M', range: [0, 3, 6, 9] },
   lrm20: { name: 'LRM 20', heat: 6, damage: 1, damageType: 'M', range: [6, 7, 14, 21] },
@@ -123,14 +123,8 @@ export const mechs = [
         ['SHOULDER', 'UPPER_ARM_ACTUATOR', 'Machine Gun'],
         []
       ],
-      leftTorso: [
-        ['HEAT_SINK', 'HEAT_SINK', 'HEAT_SINK'],
-        ['Machine Gun']
-      ],
-      rightTorso: [
-        ['HEAT_SINK', 'HEAT_SINK', 'Machine Gun'],
-        ['Ammo (Machine Gun) 200']
-      ],
+      leftTorso: [[], []],
+      rightTorso: [[], []],
       centerTorso: [
         ['FUSION_ENGINE', 'FUSION_ENGINE', 'FUSION_ENGINE', 'GYRO', 'GYRO', 'GYRO'],
         ['FUSION_ENGINE', 'FUSION_ENGINE', 'FUSION_ENGINE', 'GYRO', 'GYRO', 'GYRO']
