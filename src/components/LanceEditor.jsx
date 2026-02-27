@@ -2,10 +2,12 @@ import { useState } from 'react';
 import { calculateAdjustedBV, calculateLanceBV, findBestSkillsForTarget } from '../utils/bvCalculator';
 import { BASELINE_SKILLS } from '../types';
 import { abbreviateWeaponName } from '../utils/weaponFormatter';
+import SavedLancesDialog from './SavedLancesDialog';
 import './LanceEditor.css';
 
-function LanceEditor({ lance, mechs, onLanceUpdate, onMechSelect, targetBV, onTargetBVChange, onClearLance }) {
+function LanceEditor({ lance, mechs, onLanceUpdate, onMechSelect, targetBV, onTargetBVChange, onClearLance, onSaveLance, onLoadLance }) {
   const [compactView, setCompactView] = useState(false);
+  const [showSavedLances, setShowSavedLances] = useState(false);
 
   const handleDrop = (e) => {
     e.preventDefault();
@@ -120,6 +122,16 @@ function LanceEditor({ lance, mechs, onLanceUpdate, onMechSelect, targetBV, onTa
     });
   };
 
+  const handleSaveLance = () => {
+    const lanceName = window.prompt('Enter a name for this lance:');
+    if (lanceName !== null) {
+      const success = onSaveLance(lanceName.trim());
+      if (success) {
+        alert('Lance saved successfully!');
+      }
+    }
+  };
+
   const totalBV = calculateLanceBV(lance.mechs);
   const totalTonnage = lance.mechs.reduce((sum, lm) => {
     const mech = mechs.find(m => m.id === lm.mechId);
@@ -141,6 +153,13 @@ function LanceEditor({ lance, mechs, onLanceUpdate, onMechSelect, targetBV, onTa
 
   return (
     <div className="lance-editor">
+      {showSavedLances && (
+        <SavedLancesDialog
+          mechs={mechs}
+          onClose={() => setShowSavedLances(false)}
+          onLoadLance={onLoadLance}
+        />
+      )}
       <div className="lance-header">
         <div className="lance-title">
           <h2>{lance.name || 'New Lance'}</h2>
@@ -205,15 +224,32 @@ function LanceEditor({ lance, mechs, onLanceUpdate, onMechSelect, targetBV, onTa
               Clear Lance
             </button>
           </div>
-          <div className="compact-toggle">
-            <label>
-              <input
-                type="checkbox"
-                checked={compactView}
-                onChange={(e) => setCompactView(e.target.checked)}
-              />
-              <span>Compact View</span>
-            </label>
+          <div className="lance-actions">
+            <button
+              onClick={handleSaveLance}
+              disabled={lance.mechs.length === 0}
+              className="save-lance-btn"
+              title="Save current lance"
+            >
+              Save Lance
+            </button>
+            <button
+              onClick={() => setShowSavedLances(true)}
+              className="load-lance-btn"
+              title="Load a saved lance"
+            >
+              Load Lance
+            </button>
+            <div className="compact-toggle">
+              <label>
+                <input
+                  type="checkbox"
+                  checked={compactView}
+                  onChange={(e) => setCompactView(e.target.checked)}
+                />
+                <span>Compact View</span>
+              </label>
+            </div>
           </div>
         </div>
       </div>

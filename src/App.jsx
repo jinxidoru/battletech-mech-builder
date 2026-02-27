@@ -216,6 +216,105 @@ function App() {
     }));
   };
 
+  const handleSaveLance = (lanceName) => {
+    if (!lanceName || lanceName.trim() === '') {
+      alert('Please enter a lance name');
+      return;
+    }
+
+    if (lance.mechs.length === 0) {
+      alert('Cannot save an empty lance');
+      return;
+    }
+
+    try {
+      const savedData = localStorage.getItem('battletech-saved-lances');
+      let lancesList = [];
+
+      if (savedData) {
+        const parsed = JSON.parse(savedData);
+        if (parsed.version === '1.0' && Array.isArray(parsed.lances)) {
+          lancesList = parsed.lances;
+        }
+      }
+
+      // Check if lance with same name exists
+      const existingIndex = lancesList.findIndex(l => l.name === lanceName);
+      const now = new Date().toISOString();
+
+      const lanceToSave = {
+        id: existingIndex >= 0 ? lancesList[existingIndex].id : `lance-${Date.now()}`,
+        name: lanceName,
+        targetBV,
+        mechs: lance.mechs.map(lm => ({
+          mechId: lm.mechId,
+          gunnery: lm.gunnery,
+          piloting: lm.piloting,
+          adjustedBV: lm.adjustedBV,
+          skillsLocked: lm.skillsLocked
+        })),
+        dateCreated: existingIndex >= 0 ? lancesList[existingIndex].dateCreated : now,
+        dateModified: now
+      };
+
+      if (existingIndex >= 0) {
+        // Update existing lance
+        lancesList[existingIndex] = lanceToSave;
+      } else {
+        // Add new lance
+        lancesList.push(lanceToSave);
+      }
+
+      const newData = {
+        version: '1.0',
+        lances: lancesList
+      };
+
+      localStorage.setItem('battletech-saved-lances', JSON.stringify(newData));
+      return true;
+    } catch (e) {
+      console.error('Failed to save lance', e);
+      alert('Failed to save lance');
+      return false;
+    }
+  };
+
+  const handleLoadLance = (savedLance) => {
+    try {
+      // Validate mechs still exist
+      const validMechs = savedLance.mechs
+        .map(lanceMech => {
+          const mech = initialMechs.find(m => m.id === lanceMech.mechId);
+          if (!mech) {
+            console.warn(`Mech ${lanceMech.mechId} no longer exists, skipping`);
+            return null;
+          }
+          return lanceMech;
+        })
+        .filter(Boolean);
+
+      if (validMechs.length === 0) {
+        alert('None of the mechs in this lance are available');
+        return;
+      }
+
+      // Set the lance
+      setLance({
+        id: 'lance-1',
+        name: 'My Lance',
+        mechs: validMechs
+      });
+
+      // Set target BV
+      if (typeof savedLance.targetBV === 'number' && savedLance.targetBV > 0) {
+        setTargetBV(savedLance.targetBV);
+      }
+    } catch (e) {
+      console.error('Failed to load lance', e);
+      alert('Failed to load lance');
+    }
+  };
+
   return (
     <div className="app">
       <header className="app-header">
@@ -246,6 +345,8 @@ function App() {
             targetBV={targetBV}
             onTargetBVChange={handleTargetBVChange}
             onClearLance={handleClearLance}
+            onSaveLance={handleSaveLance}
+            onLoadLance={handleLoadLance}
           />
         </div>
 

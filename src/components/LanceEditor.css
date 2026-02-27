@@ -34,6 +34,13 @@
   flex-wrap: wrap;
 }
 
+.lance-actions {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
 .lance-stats {
   display: flex;
   gap: 24px;
@@ -167,6 +174,48 @@
   background: #333;
   color: #666;
   cursor: not-allowed;
+}
+
+.save-lance-btn {
+  padding: 10px 20px;
+  background: linear-gradient(135deg, #00c864, #009950);
+  border: none;
+  border-radius: 4px;
+  color: #fff;
+  font-size: 0.95em;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+
+.save-lance-btn:hover:not(:disabled) {
+  background: linear-gradient(135deg, #00d970, #00aa5a);
+  box-shadow: 0 4px 12px rgba(0, 200, 100, 0.3);
+}
+
+.save-lance-btn:disabled {
+  background: #333;
+  color: #666;
+  cursor: not-allowed;
+}
+
+.load-lance-btn {
+  padding: 10px 20px;
+  background: linear-gradient(135deg, #aa00ff, #8800cc);
+  border: none;
+  border-radius: 4px;
+  color: #fff;
+  font-size: 0.95em;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+
+.load-lance-btn:hover {
+  background: linear-gradient(135deg, #bb11ff, #9900dd);
+  box-shadow: 0 4px 12px rgba(170, 0, 255, 0.3);
 }
 
 .lance-drop-zone {
