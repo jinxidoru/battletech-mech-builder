@@ -48,6 +48,7 @@ function SavedLancesDialog({ mechs, onClose, onLoadLance }) {
   };
 
   const handleLoad = (savedLance) => {
+    // The unsaved changes check is now handled in LanceEditor before opening the dialog
     onLoadLance(savedLance);
     onClose();
   };

@@ -3,11 +3,15 @@ import { calculateAdjustedBV, calculateLanceBV, findBestSkillsForTarget } from '
 import { BASELINE_SKILLS } from '../types';
 import { abbreviateWeaponName } from '../utils/weaponFormatter';
 import SavedLancesDialog from './SavedLancesDialog';
+import UnsavedChangesDialog from './UnsavedChangesDialog';
 import './LanceEditor.css';
 
-function LanceEditor({ lance, mechs, onLanceUpdate, onMechSelect, targetBV, onTargetBVChange, onClearLance, onSaveLance, onLoadLance }) {
+function LanceEditor({ lance, mechs, onLanceUpdate, onMechSelect, targetBV, onTargetBVChange, onClearLance, onSaveLance, onLoadLance, onLanceNameChange, isDirty }) {
   const [compactView, setCompactView] = useState(false);
   const [showSavedLances, setShowSavedLances] = useState(false);
+  const [isEditingName, setIsEditingName] = useState(false);
+  const [showUnsavedDialog, setShowUnsavedDialog] = useState(false);
+  const [pendingAction, setPendingAction] = useState(null);
 
   const handleDrop = (e) => {
     e.preventDefault();
@@ -123,12 +127,105 @@ function LanceEditor({ lance, mechs, onLanceUpdate, onMechSelect, targetBV, onTa
   };
 
   const handleSaveLance = () => {
-    const lanceName = window.prompt('Enter a name for this lance:');
-    if (lanceName !== null) {
-      const success = onSaveLance(lanceName.trim());
+    const currentName = lance.name || 'My Lance';
+
+    // If name is still default, prompt for a name
+    if (currentName === 'My Lance' || currentName.trim() === '') {
+      const lanceName = window.prompt('Enter a name for this lance:', currentName);
+      if (lanceName !== null && lanceName.trim() !== '') {
+        // Update the name first
+        onLanceNameChange(lanceName.trim());
+        // Then save with the new name
+        const success = onSaveLance(lanceName.trim());
+        if (success) {
+          alert('Lance saved successfully!');
+        }
+      }
+    } else {
+      // Save with current name
+      const success = onSaveLance(currentName);
       if (success) {
         alert('Lance saved successfully!');
       }
+    }
+  };
+
+  const checkUnsavedChanges = (callback, actionType) => {
+    if (isDirty && lance.mechs.length > 0) {
+      // Show custom confirmation dialog
+      setPendingAction(() => callback);
+      setShowUnsavedDialog(true);
+    } else {
+      // No unsaved changes, proceed
+      callback();
+    }
+  };
+
+  const handleSaveAndContinue = () => {
+    const currentName = lance.name || 'My Lance';
+
+    // If name is still default, prompt for a name
+    if (currentName === 'My Lance' || currentName.trim() === '') {
+      const lanceName = window.prompt('Enter a name for this lance:', currentName);
+      if (lanceName !== null && lanceName.trim() !== '') {
+        onLanceNameChange(lanceName.trim());
+        const success = onSaveLance(lanceName.trim());
+        if (success && pendingAction) {
+          setShowUnsavedDialog(false);
+          pendingAction();
+          setPendingAction(null);
+        }
+      }
+    } else {
+      const success = onSaveLance(currentName);
+      if (success && pendingAction) {
+        setShowUnsavedDialog(false);
+        pendingAction();
+        setPendingAction(null);
+      }
+    }
+  };
+
+  const handleDiscardChanges = () => {
+    setShowUnsavedDialog(false);
+    if (pendingAction) {
+      pendingAction();
+      setPendingAction(null);
+    }
+  };
+
+  const handleCancelUnsaved = () => {
+    setShowUnsavedDialog(false);
+    setPendingAction(null);
+  };
+
+  const handleClearLance = () => {
+    checkUnsavedChanges(() => {
+      onClearLance();
+    }, 'clear');
+  };
+
+  const handleLoadLanceClick = () => {
+    checkUnsavedChanges(() => {
+      setShowSavedLances(true);
+    }, 'load');
+  };
+
+  const handleNameChange = (e) => {
+    onLanceNameChange(e.target.value);
+  };
+
+  const handleNameBlur = () => {
+    setIsEditingName(false);
+    // If name is empty, revert to default
+    if (!lance.name || lance.name.trim() === '') {
+      onLanceNameChange('My Lance');
+    }
+  };
+
+  const handleNameKeyPress = (e) => {
+    if (e.key === 'Enter') {
+      e.target.blur();
     }
   };
 
@@ -153,6 +250,13 @@ function LanceEditor({ lance, mechs, onLanceUpdate, onMechSelect, targetBV, onTa
 
   return (
     <div className="lance-editor">
+      {showUnsavedDialog && (
+        <UnsavedChangesDialog
+          onSaveAndContinue={handleSaveAndContinue}
+          onDiscard={handleDiscardChanges}
+          onCancel={handleCancelUnsaved}
+        />
+      )}
       {showSavedLances && (
         <SavedLancesDialog
           mechs={mechs}
@@ -162,7 +266,19 @@ function LanceEditor({ lance, mechs, onLanceUpdate, onMechSelect, targetBV, onTa
       )}
       <div className="lance-header">
         <div className="lance-title">
-          <h2>{lance.name || 'New Lance'}</h2>
+          <div className="lance-name-container">
+            <input
+              type="text"
+              className="lance-name-input"
+              value={lance.name || ''}
+              onChange={handleNameChange}
+              onFocus={() => setIsEditingName(true)}
+              onBlur={handleNameBlur}
+              onKeyPress={handleNameKeyPress}
+              placeholder="My Lance"
+              maxLength={50}
+            />
+          </div>
           <div className="lance-stats">
             <div className="lance-stat">
               <span className="stat-label">Total BV:</span>
@@ -216,7 +332,7 @@ function LanceEditor({ lance, mechs, onLanceUpdate, onMechSelect, targetBV, onTa
               Auto-Balance
             </button>
             <button
-              onClick={onClearLance}
+              onClick={handleClearLance}
               disabled={lance.mechs.length === 0}
               className="clear-lance-btn"
               title="Clear all mechs from lance"
@@ -228,13 +344,14 @@ function LanceEditor({ lance, mechs, onLanceUpdate, onMechSelect, targetBV, onTa
             <button
               onClick={handleSaveLance}
               disabled={lance.mechs.length === 0}
-              className="save-lance-btn"
+              className={`save-lance-btn ${isDirty ? 'dirty' : ''}`}
               title="Save current lance"
             >
+              {isDirty && <span className="unsaved-indicator">*</span>}
               Save Lance
             </button>
             <button
-              onClick={() => setShowSavedLances(true)}
+              onClick={handleLoadLanceClick}
               className="load-lance-btn"
               title="Load a saved lance"
             >

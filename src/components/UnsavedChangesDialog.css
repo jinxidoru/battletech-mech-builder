@@ -1,0 +1,151 @@
+.unsaved-changes-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.75);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  backdrop-filter: blur(4px);
+}
+
+.unsaved-changes-dialog {
+  background: linear-gradient(145deg, #2a2a2a, #222);
+  border: 2px solid #444;
+  border-radius: 12px;
+  width: 90%;
+  max-width: 500px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+  animation: slideIn 0.2s ease-out;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.unsaved-changes-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 24px;
+  border-bottom: 2px solid #333;
+}
+
+.unsaved-changes-header h2 {
+  margin: 0;
+  color: #ffb84d;
+  font-size: 1.5em;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.unsaved-changes-header .close-btn {
+  background: none;
+  border: none;
+  color: #888;
+  font-size: 2em;
+  line-height: 1;
+  cursor: pointer;
+  padding: 0;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  transition: all 0.2s;
+}
+
+.unsaved-changes-header .close-btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+}
+
+.unsaved-changes-content {
+  padding: 32px 24px;
+  text-align: center;
+}
+
+.warning-icon {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 16px;
+  color: #ffb84d;
+  filter: drop-shadow(0 0 8px rgba(255, 184, 77, 0.3));
+}
+
+.unsaved-changes-content p {
+  margin: 12px 0;
+  color: #ccc;
+  font-size: 1.1em;
+  line-height: 1.5;
+}
+
+.unsaved-changes-content p:first-of-type {
+  color: #fff;
+  font-weight: 600;
+  font-size: 1.2em;
+}
+
+.unsaved-changes-actions {
+  display: flex;
+  gap: 12px;
+  padding: 20px 24px;
+  border-top: 2px solid #333;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.unsaved-changes-actions button {
+  padding: 12px 24px;
+  border: none;
+  border-radius: 6px;
+  font-size: 1em;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  white-space: nowrap;
+  flex: 1;
+  min-width: 120px;
+}
+
+.save-continue-btn {
+  background: linear-gradient(135deg, #00c864, #009950);
+  color: #fff;
+}
+
+.save-continue-btn:hover {
+  background: linear-gradient(135deg, #00d970, #00aa5a);
+  box-shadow: 0 4px 12px rgba(0, 200, 100, 0.3);
+}
+
+.discard-btn {
+  background: linear-gradient(135deg, #cc3333, #aa2222);
+  color: #fff;
+}
+
+.discard-btn:hover {
+  background: linear-gradient(135deg, #dd4444, #bb3333);
+  box-shadow: 0 4px 12px rgba(204, 51, 51, 0.3);
+}
+
+.cancel-btn {
+  background: linear-gradient(135deg, #555, #444);
+  color: #fff;
+}
+
+.cancel-btn:hover {
+  background: linear-gradient(135deg, #666, #555);
+  box-shadow: 0 4px 12px rgba(85, 85, 85, 0.3);
+}

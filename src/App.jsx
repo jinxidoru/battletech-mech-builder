@@ -21,6 +21,8 @@ function App() {
     mechs: []
   });
   const [targetBV, setTargetBV] = useState(5000);
+  const [isDirty, setIsDirty] = useState(false);
+  const [savedLanceSnapshot, setSavedLanceSnapshot] = useState(null);
 
   // Load data from localStorage on mount
   useEffect(() => {
@@ -66,7 +68,7 @@ function App() {
 
         // Validate and load lance data
         if (lanceData.version === '1.0' && lanceData.currentLance) {
-          const { targetBV: savedTargetBV, mechs: savedMechs } = lanceData.currentLance;
+          const { targetBV: savedTargetBV, mechs: savedMechs, name: savedName } = lanceData.currentLance;
 
           // Set target BV
           if (typeof savedTargetBV === 'number' && savedTargetBV > 0) {
@@ -109,7 +111,7 @@ function App() {
           if (validMechs.length > 0) {
             setLance({
               id: 'lance-1',
-              name: 'My Lance',
+              name: savedName || 'My Lance',
               mechs: validMechs
             });
           }
@@ -160,6 +162,7 @@ function App() {
     const lanceData = {
       version: '1.0',
       currentLance: {
+        name: lance.name,
         targetBV,
         mechs: lance.mechs.map(lanceMech => ({
           mechId: lanceMech.mechId,
@@ -193,10 +196,17 @@ function App() {
 
   const handleLanceUpdate = (updatedLance) => {
     setLance(updatedLance);
+    setIsDirty(true);
   };
 
   const handleTargetBVChange = (newTargetBV) => {
     setTargetBV(newTargetBV);
+    setIsDirty(true);
+  };
+
+  const handleLanceNameChange = (newName) => {
+    setLance(prevLance => ({ ...prevLance, name: newName }));
+    setIsDirty(true);
   };
 
   const handleClearLance = () => {
@@ -206,10 +216,13 @@ function App() {
       mechs: []
     });
     setTargetBV(5000);
+    setIsDirty(false);
+    setSavedLanceSnapshot(null);
     // Clear localStorage
     localStorage.setItem('battletech-current-lance', JSON.stringify({
       version: '1.0',
       currentLance: {
+        name: 'My Lance',
         targetBV: 5000,
         mechs: []
       }
@@ -219,12 +232,12 @@ function App() {
   const handleSaveLance = (lanceName) => {
     if (!lanceName || lanceName.trim() === '') {
       alert('Please enter a lance name');
-      return;
+      return false;
     }
 
     if (lance.mechs.length === 0) {
       alert('Cannot save an empty lance');
-      return;
+      return false;
     }
 
     try {
@@ -271,6 +284,21 @@ function App() {
       };
 
       localStorage.setItem('battletech-saved-lances', JSON.stringify(newData));
+
+      // Mark as clean and save snapshot
+      setIsDirty(false);
+      setSavedLanceSnapshot({
+        name: lanceName,
+        targetBV,
+        mechs: lance.mechs.map(lm => ({
+          mechId: lm.mechId,
+          gunnery: lm.gunnery,
+          piloting: lm.piloting,
+          adjustedBV: lm.adjustedBV,
+          skillsLocked: lm.skillsLocked
+        }))
+      });
+
       return true;
     } catch (e) {
       console.error('Failed to save lance', e);
@@ -298,10 +326,10 @@ function App() {
         return;
       }
 
-      // Set the lance
+      // Set the lance with the loaded name
       setLance({
         id: 'lance-1',
-        name: 'My Lance',
+        name: savedLance.name || 'My Lance',
         mechs: validMechs
       });
 
@@ -309,6 +337,20 @@ function App() {
       if (typeof savedLance.targetBV === 'number' && savedLance.targetBV > 0) {
         setTargetBV(savedLance.targetBV);
       }
+
+      // Mark as clean and save snapshot
+      setIsDirty(false);
+      setSavedLanceSnapshot({
+        name: savedLance.name || 'My Lance',
+        targetBV: savedLance.targetBV || 5000,
+        mechs: validMechs.map(lm => ({
+          mechId: lm.mechId,
+          gunnery: lm.gunnery,
+          piloting: lm.piloting,
+          adjustedBV: lm.adjustedBV,
+          skillsLocked: lm.skillsLocked
+        }))
+      });
     } catch (e) {
       console.error('Failed to load lance', e);
       alert('Failed to load lance');
@@ -347,6 +389,8 @@ function App() {
             onClearLance={handleClearLance}
             onSaveLance={handleSaveLance}
             onLoadLance={handleLoadLance}
+            onLanceNameChange={handleLanceNameChange}
+            isDirty={isDirty}
           />
         </div>
 

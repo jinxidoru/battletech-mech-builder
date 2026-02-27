@@ -26,6 +26,41 @@
   font-size: 1.5em;
 }
 
+.lance-name-container {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.lance-name-input {
+  margin: 0;
+  padding: 8px 12px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 2px solid transparent;
+  border-radius: 4px;
+  color: #fff;
+  font-size: 1.5em;
+  font-weight: 600;
+  transition: all 0.2s;
+  width: 100%;
+  max-width: 500px;
+}
+
+.lance-name-input:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+.lance-name-input:focus {
+  outline: none;
+  background: rgba(255, 255, 255, 0.1);
+  border-color: #00aaff;
+}
+
+.lance-name-input::placeholder {
+  color: #666;
+}
+
 .lance-header-controls {
   display: flex;
   justify-content: space-between;
@@ -198,6 +233,41 @@
   background: #333;
   color: #666;
   cursor: not-allowed;
+}
+
+.save-lance-btn.dirty {
+  background: linear-gradient(135deg, #ff9500, #cc7700);
+  animation: pulse-dirty 2s ease-in-out infinite;
+}
+
+.save-lance-btn.dirty:hover:not(:disabled) {
+  background: linear-gradient(135deg, #ffaa00, #dd8800);
+  box-shadow: 0 4px 12px rgba(255, 149, 0, 0.4);
+}
+
+@keyframes pulse-dirty {
+  0%, 100% {
+    box-shadow: 0 0 0 0 rgba(255, 149, 0, 0.4);
+  }
+  50% {
+    box-shadow: 0 0 0 4px rgba(255, 149, 0, 0.1);
+  }
+}
+
+.unsaved-indicator {
+  display: inline-block;
+  margin-right: 4px;
+  font-size: 1.2em;
+  animation: blink 1.5s ease-in-out infinite;
+}
+
+@keyframes blink {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.4;
+  }
 }
 
 .load-lance-btn {
