@@ -1,3 +1,4 @@
+import { abbreviateWeaponName } from '../utils/weaponFormatter';
 import './MechPreviewPanel.css';
 
 function MechPreviewPanel({ mech }) {
@@ -87,7 +88,7 @@ function MechPreviewPanel({ mech }) {
             {mech.weapons.map((weapon, index) => (
               <div key={index} className="weapon-preview-item">
                 <span className="weapon-bullet">•</span>
-                <span className="weapon-name">{weapon}</span>
+                <span className="weapon-name">{abbreviateWeaponName(weapon)}</span>
               </div>
             ))}
           </div>

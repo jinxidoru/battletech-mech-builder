@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { abbreviateWeaponName } from '../utils/weaponFormatter';
 import './MechCard.css';
 
 function MechCard({ mech, onSelect, isSelected, onOwnedCountChange, compactView }) {
@@ -120,7 +121,7 @@ function MechCard({ mech, onSelect, isSelected, onOwnedCountChange, compactView 
           <span className="weapons-label">Weapons:</span>
           <div className="weapons-list">
             {mech.weapons.slice(0, 3).map((weapon, index) => (
-              <span key={index} className="weapon-tag">{weapon}</span>
+              <span key={index} className="weapon-tag">{abbreviateWeaponName(weapon)}</span>
             ))}
             {mech.weapons.length > 3 && (
               <span className="weapon-tag more">+{mech.weapons.length - 3}</span>
